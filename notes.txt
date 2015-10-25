@@ -1,0 +1,16 @@
+OAuth - 
+	get my tweets
+	expand to others' accounts
+
+NLTK - 
+	get training corpus
+
+
+Slack?! - 
+	get my account authorized
+	get history
+	make list of content
+	sort by user?
+	rank users?
+
+	
