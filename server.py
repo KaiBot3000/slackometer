@@ -8,18 +8,20 @@ app = Flask(__name__)
 
 app.secret_key = "a_very_dumb_secret"
 
-client_id = os.environ["CLIENT_ID"]
-client_secret = os.environ["CLIENT_SECRET"]
+CLIENT_ID = os.environ["CLIENT_ID"]
+CLIENT_SECRET = os.environ["CLIENT_SECRET"]
+state = None
 
 @app.route("/")
 def index_page():
     """Initial landing page"""
 
-
-
-    params = {"client_id": client_id,
+    global state
+    state = randomWord()
+    print "initial: ", state
+    params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
-                "state": randomWord()}
+                "state": state}
 
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
@@ -31,6 +33,13 @@ def slacked():
     """Landing page for authorized slack users"""
 
     effort = "Successful!"
+
+    state_returned = request.args.get("state")
+    print "returned: ", state_returned
+    print "initial again: ", state
+
+    if state_returned != state:
+        effort = "hacked!"
 
     return effort
 
