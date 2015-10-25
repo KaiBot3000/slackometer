@@ -18,7 +18,7 @@ def index_page():
 
     global state
     state = randomWord()
-    print "initial: ", state
+
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
                 "state": state}
@@ -35,11 +35,10 @@ def slacked():
     effort = "Successful!"
 
     state_returned = request.args.get("state")
-    print "returned: ", state_returned
-    print "initial again: ", state
+    client_code = request.args.get("code")
 
     if state_returned != state:
-        effort = "hacked!"
+        raise Exception("Slack did not return the expected state variable! You've been h4x0r3d.")
 
     return effort
 
@@ -53,4 +52,4 @@ def randomWord():
 
 if __name__ == '__main__':
     print "Server up and running, yo!"
-    app.run()
+    app.run(debug=True)
