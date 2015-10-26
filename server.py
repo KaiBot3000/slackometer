@@ -53,10 +53,10 @@ def slacked():
 
         print channel_list
 
-        # def get_channel_history(channel_name):
-        #     """Given a channel name, returns history of the channel"""
+        def get_channel_history(channel_tuple):
+            """Given a channel tuple, returns history of the channel"""
 
-        #     channel_params = 
+            channel_params
 
     return "authorized"
 
@@ -67,6 +67,7 @@ def randomWord():
     """Generates a random 10 character string, to use as an API verification"""
     return ''.join(random.choice(string.lowercase) for i in range(10))
 
+
 def check_state(state_returned):
     """Checks that state sent to Slack is correctly returned."""
 
@@ -76,8 +77,9 @@ def check_state(state_returned):
     else:
         return True
 
+
 def get_channel_list(token):
-    """Give a user token, returns a list of active channel names and ids as tuples"""
+    """Give a user token, returns a list of tuples with active channel names and ids"""
 
     channel_params = {"token": token, "exclude_archived": 1}
     channel_url = "https://slack.com/api/channels.list?" + urlencode(channel_params)
