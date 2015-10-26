@@ -50,13 +50,9 @@ def slacked():
         user_token = response["access_token"]
 
         channel_list = get_channel_list(user_token)
-
-        print channel_list
-
-        def get_channel_history(channel_tuple):
-            """Given a channel tuple, returns history of the channel"""
-
-            channel_params
+        first_channel = channel_list[0]
+        first_channel_history = get_channel_history(user_token, first_channel)
+        print first_channel_history
 
     return "authorized"
 
@@ -93,6 +89,26 @@ def get_channel_list(token):
         channel_list.append(channel_tuple)
 
     return channel_list
+
+
+def get_channel_history(token, channel_tuple):
+    """Given a channel tuple, returns history of the channel"""
+
+    history_params = {"token": token, 
+                        "channel": channel_tuple[1],
+                        "inclusive": 1,
+                        "count":10
+                        }
+    history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
+    json_history = requests.get(history_url)
+    history_response = json_history.json()
+
+    msg_list = []
+
+    for msg in history_response["messages"]:
+        msg_list.append(msg["text"])
+
+    return msg_list
 
 
 
