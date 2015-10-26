@@ -47,8 +47,18 @@ def slacked():
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
         json_response = requests.get(oauth_url)
         response = json_response.json()
-        print response
-        print response["access_token"]
+
+        token = {"token": response["access_token"]}
+
+        channel_url = "https://slack.com/api/channels.list?" + urlencode(token)
+
+        json_channel = requests.get(channel_url)
+
+        channel_response = json_channel.json()
+
+        for channel in channel_response["channels"]:
+            print channel["name"]
+
 
     return "authorized"
 
