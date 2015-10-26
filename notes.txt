@@ -1,6 +1,4 @@
-OAuth - 
-	get my tweets
-	expand to others' accounts
+
 
 NLTK - 
 	get training corpus

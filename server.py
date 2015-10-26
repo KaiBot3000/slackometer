@@ -1,4 +1,4 @@
-import os, random, string
+import os, random, string, requests, json
 from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
 from urllib import urlencode
@@ -36,13 +36,19 @@ def slacked():
     state_returned = request.args.get("state")
     client_code = request.args.get("code")
 
-    if check_state(state_returned):
+    if check_state(state_returned) is False:
+        return "Slack did not return the expected state variable! You've been h4x0r3d."
+    else:
+        params = {"client_id": CLIENT_ID,
+                    "client_secret": CLIENT_SECRET,
+                    "code": client_code}
+
+        oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
+        json_response = requests.get(oauth_url)
+
+        print json_response.json()
         # convert code to token
         # redirect 
-
-        pass
-    else:
-        return "Slack did not return the expected state variable! You've been h4x0r3d."
 
     return "authorized"
 
