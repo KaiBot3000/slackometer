@@ -47,18 +47,9 @@ def slacked():
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
         json_response = requests.get(oauth_url)
         response = json_response.json()
+        user_token = response["access_token"]
 
-        token = {"token": response["access_token"]}
-
-        channel_url = "https://slack.com/api/channels.list?" + urlencode(token)
-
-        json_channel = requests.get(channel_url)
-
-        channel_response = json_channel.json()
-
-        for channel in channel_response["channels"]:
-            print channel["name"]
-
+        print get_channel_list(user_token)
 
     return "authorized"
 
@@ -77,6 +68,21 @@ def check_state(state_returned):
         return False
     else:
         return True
+
+def get_channel_list(token):
+    """Give a user token, returns a list of active channels in their team"""
+
+    channel_params = {"token": token, "exclude_archived": 1}
+    channel_url = "https://slack.com/api/channels.list?" + urlencode(channel_params)
+    json_channel = requests.get(channel_url)
+    channel_response = json_channel.json()
+
+    channel_list = []
+    
+    for channel in channel_response["channels"]:
+        channel_list.append(channel["name"])
+
+    return channel_list
 
 
 
