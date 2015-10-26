@@ -32,22 +32,36 @@ def index_page():
 def slacked():
     """Landing page for authorized slack users"""
 
-    effort = "Successful!"
 
     state_returned = request.args.get("state")
     client_code = request.args.get("code")
 
-    if state_returned != state:
-        raise Exception("Slack did not return the expected state variable! You've been h4x0r3d.")
+    if check_state(state_returned):
+        # convert code to token
+        # redirect 
 
-    return effort
+        pass
+    else:
+        return "Slack did not return the expected state variable! You've been h4x0r3d."
+
+    return "authorized"
 
 
 # Helper functions
 
 def randomWord():
-    """Generates a random string, to use as an API verification"""
+    """Generates a random 10 character string, to use as an API verification"""
     return ''.join(random.choice(string.lowercase) for i in range(10))
+
+def check_state(state_returned):
+    """Checks that state sent to Slack is correctly returned."""
+
+    if state_returned != state:
+        raise Exception("Slack did not return the expected state variable! You've been h4x0r3d.")
+        return False
+    else:
+        return True
+
 
 
 if __name__ == '__main__':
