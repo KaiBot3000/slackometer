@@ -21,7 +21,8 @@ def index_page():
 
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
-                "state": state}
+                "state": state,
+                "team": "Dovetail"}
 
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
@@ -45,10 +46,9 @@ def slacked():
 
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
         json_response = requests.get(oauth_url)
-
-        print json_response.json()
-        # convert code to token
-        # redirect 
+        response = json_response.json()
+        print response
+        print response["access_token"]
 
     return "authorized"
 
