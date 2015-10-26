@@ -12,6 +12,7 @@ CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
 state = None
 
+
 @app.route("/")
 def index_page():
     """Initial landing page"""
@@ -109,7 +110,6 @@ def get_channel_history(token, channel_tuple):
         msg_list.append(msg["text"])
 
     return msg_list
-
 
 
 if __name__ == '__main__':
