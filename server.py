@@ -53,7 +53,9 @@ def slacked():
         channel_list = get_channel_list(user_token)
         first_channel = channel_list[0]
         first_channel_history = get_channel_history(user_token, first_channel)
-        print first_channel_history
+        
+        for message in first_channel_history:
+            print message
 
     return "authorized"
 

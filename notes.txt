@@ -1,14 +1,20 @@
 
 
 NLTK - 
-	get training corpus
-
+	get training corpus???
 
 Slack?! - 
 	get my account authorized
 	get history
 	make list of content
-	sort by user?
-	rank users?
+    process content
+        use beautiful soup to remove tags?
+
+
+	(Feature: sort by user?
+        rank users?)
+
+
+
 
 	
