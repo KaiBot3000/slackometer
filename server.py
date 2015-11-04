@@ -49,7 +49,6 @@ def slacked():
 
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
         json_response = requests.get(oauth_url)
-
         # parse json response
         response = json_response.json()
         # identify user
@@ -70,9 +69,6 @@ def slacked():
         sentiment = get_sentiment(msg_dictionary)
 
         print sentiment
-
-        # for message in first_channel_history:
-        #     print "\n\n", message
 
     return "authorized"
 
@@ -135,9 +131,9 @@ def make_history_dictionary(msg_list):
     """Converts a message list into a dictionary for sentiment analysis"""
 
     # dictionary = {"data":[
-                        # {"text": "I love Titanic."}, 
-                        # {"text": "I hate Titanic."}
-                        # ]}
+    #                     {"text": "I love Titanic."}, 
+    #                     {"text": "I hate Titanic."}
+    #                     ]}
 
     msg_dictionary = {}
     msg_text_list = []
@@ -173,13 +169,6 @@ def get_sentiment(msg_dictionary):
     sentiment_response = sentiment_api_call.read()
      
     return sentiment_response
-
-# test_dict = {"data": [{"text": "I love Titanic."}, 
-#                     {"text": "I hate Titanic."}]}
-
-# sentiment = get_sentiment(test_dict)
-# print sentiment
-
 
 
 if __name__ == '__main__':
