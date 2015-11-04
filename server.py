@@ -36,7 +36,6 @@ def index_page():
 def slacked():
     """Landing page for authorized slack users"""
 
-
     state_returned = request.args.get("state")
     client_code = request.args.get("code")
 
@@ -55,20 +54,20 @@ def slacked():
         response = json_response.json()
         # identify user
         user_token = response["access_token"]
+
+
         # get list of channels for user
         channel_list = get_channel_list(user_token)
 
-        # test: get history for one channel, print it out
+        # get history for one channel
         first_channel = channel_list[0]
         first_channel_history = get_channel_history(user_token, first_channel)
         
-        # print first_channel_history
-
+        # convert history into python dictionary
         msg_dictionary = make_history_dictionary(first_channel_history)
 
-        test_dict = {"data": [{"text": "I love Titanic."}, 
-                    {"text": "I hate Titanic."}]}
-        sentiment = get_sentiment(test_dict)
+        # use API call to get sentiment analysis
+        sentiment = get_sentiment(msg_dictionary)
 
         print sentiment
 
