@@ -11,6 +11,7 @@ app.secret_key = "a_very_dumb_secret"
 
 CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
+MYEMAIL = os.environ["MYEMAIL"]
 state = None
 
 
@@ -63,7 +64,12 @@ def slacked():
         
         # print first_channel_history
 
-        make_history_dictionary(first_channel_history)
+        msg_dictionary = make_history_dictionary(first_channel_history)
+        print msg_dictionary
+
+        sentiment = get_sentiment(msg_dictionary)
+
+        print sentiment
 
         # for message in first_channel_history:
         #     print "\n\n", message
@@ -143,7 +149,7 @@ def make_history_dictionary(msg_list):
 
     msg_dictionary["data"] = msg_text_list
 
-    print msg_dictionary
+    return msg_dictionary
 
 def clean_msg(msg):
     """Takes single message, removes user tags and links, returns stripped message"""
@@ -153,6 +159,21 @@ def clean_msg(msg):
     cleaned_msg = re.sub("[<].*?[>]", "", msg)
 
     return cleaned_msg
+
+def get_sentiment(msg_dictionary):
+    """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
+    print "in get_sentiment"
+    print msg_dictionary
+
+    msg_dictionary["appid"] = MYEMAIL
+
+    sentiment_url = "http://www.sentiment140.com/api/bulkClassifyJson?" + urlencode(msg_dictionary)
+    sentiment_response = requests.get(sentiment_url)
+
+    # parse json response
+    # sentiment_response = sentiment_response.json()
+
+    return sentiment_response
 
 # test = clean_msg("<something> is a ball of <otherthings>")
 # print test
