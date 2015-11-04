@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
 from urllib import urlencode, urlopen
 import re
-import channel
+from channel import Channel
 
 
 app = Flask(__name__)

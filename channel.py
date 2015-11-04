@@ -5,23 +5,23 @@ class Channel(object):
 
 
     def get_channel_history(token, channel_tuple):
-    """Given a channel tuple, returns history of the channel"""
+        """Given a channel tuple, returns history of the channel"""
 
-    history_params = {"token": token, 
-                        "channel": channel_tuple[1],
-                        "inclusive": 1,
-                        "count":30
-                        }
-    history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
-    json_history = requests.get(history_url)
-    history_response = json_history.json()
+        history_params = {"token": token, 
+                            "channel": channel_tuple[1],
+                            "inclusive": 1,
+                            "count":30
+                            }
+        history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
+        json_history = requests.get(history_url)
+        history_response = json_history.json()
 
-    msg_list = []
+        msg_list = []
 
-    for msg in history_response["messages"]:
-        msg_list.append(msg["text"])
+        for msg in history_response["messages"]:
+            msg_list.append(msg["text"])
 
-    return msg_list
+        return msg_list
 
 
     def make_history_dictionary(msg_list):
@@ -78,14 +78,14 @@ class Channel(object):
         return sentiment_list
 
 
-    new_response = {"data":[
-                        {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
-                        {"text":"awww!","polarity":2,"meta":{"language":"en"}},
-                        {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
-                        {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
-                        {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
-                        ],
-                    "appid":"kai@kaidalgleish.io"}
+    # new_response = {"data":[
+    #                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
+    #                     {"text":"awww!","polarity":2,"meta":{"language":"en"}},
+    #                     {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
+    #                     {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
+    #                     {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
+    #                     ],
+    #                 "appid":"kai@kaidalgleish.io"}
 
-    new_list = make_sentiment_list(new_response)
-    print new_list
+    # new_list = make_sentiment_list(new_response)
+    # print new_list
