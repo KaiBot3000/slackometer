@@ -125,8 +125,8 @@ def parse_history(msg_list):
     """Converts a message list into a dictionary for sentiment analysis"""
 
     # dictionary = {"data":[
-                        # {"text": "I love Titanic.", "id": 1234}, 
-                        # {"text": "I hate Titanic.", "id": 4567}
+                        # {"text": "I love Titanic."}, 
+                        # {"text": "I hate Titanic."}
                         # ]}
 
     msg_dictionary = {}
