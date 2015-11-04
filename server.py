@@ -111,7 +111,7 @@ def get_channel_history(token, channel_tuple):
     history_params = {"token": token, 
                         "channel": channel_tuple[1],
                         "inclusive": 1,
-                        "count":10
+                        "count":30
                         }
     history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
     json_history = requests.get(history_url)
@@ -137,6 +137,7 @@ def make_history_dictionary(msg_list):
 
     for msg in msg_list:
         msg_dict = {}
+        msg = clean_msg(msg)
         msg_dict["text"] = msg
         msg_text_list.append(msg_dict)
 
@@ -153,8 +154,8 @@ def clean_msg(msg):
 
     return cleaned_msg
 
-test = clean_msg("<something> is a ball of <otherthings>")
-print test
+# test = clean_msg("<something> is a ball of <otherthings>")
+# print test
 
 
 if __name__ == '__main__':
