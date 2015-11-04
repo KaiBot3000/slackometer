@@ -168,6 +168,10 @@ def get_sentiment(msg_dictionary):
 
     msg_dictionary["appid"] = MYEMAIL
 
+    print msg_dictionary
+
+    msg
+
     sentiment_url = "http://www.sentiment140.com/api/bulkClassifyJson?" + urlencode(msg_dictionary)
     sentiment_response = requests.get(sentiment_url)
 
@@ -176,6 +180,9 @@ def get_sentiment(msg_dictionary):
 
     return sentiment_response
 
+
+# copied a test dictionary from the sentiment140 site, and am using that to test the api call. 
+# getting a 405 - method not allowed
 test_dict = {"data": [{"text": "I love Titanic."}, 
                     {"text": "I hate Titanic."}]}
 
@@ -186,5 +193,4 @@ print sentiment.headers
 
 
 if __name__ == '__main__':
-    print "Server up and running, yo!"
     app.run(debug=True)
