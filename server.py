@@ -1,7 +1,7 @@
 import os, random, string, requests, json
 from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
-from urllib import urlencode
+from urllib import urlencode, urlopen
 import re
 
 
@@ -163,21 +163,13 @@ def clean_msg(msg):
 
 def get_sentiment(msg_dictionary):
     """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
-    print "\n\n\n\nin get_sentiment"
-    # print msg_dictionary
 
     msg_dictionary["appid"] = MYEMAIL
+    sentiment_data = json.dumps(msg_dictionary)
 
-    print msg_dictionary
-
-    msg
-
-    sentiment_url = "http://www.sentiment140.com/api/bulkClassifyJson?" + urlencode(msg_dictionary)
-    sentiment_response = requests.get(sentiment_url)
-
-    # parse json response
-    # sentiment_response = sentiment_response.json()
-
+    sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
+    sentiment_response = sentiment_api_call.read()
+     
     return sentiment_response
 
 
@@ -188,7 +180,6 @@ test_dict = {"data": [{"text": "I love Titanic."},
 
 sentiment = get_sentiment(test_dict)
 print sentiment
-print sentiment.headers
 
 
 
