@@ -63,7 +63,7 @@ def slacked():
         print first_channel_history
 
         for message in first_channel_history:
-            print message
+            print "\n\n", message
 
     return "authorized"
 
@@ -120,6 +120,19 @@ def get_channel_history(token, channel_tuple):
         msg_list.append(msg["text"])
 
     return msg_list
+
+def parse_history(msg_list):
+    """Converts a message list into a dictionary for sentiment analysis"""
+
+    # dictionary = {"data":[
+                        # {"text": "I love Titanic.", "id": 1234}, 
+                        # {"text": "I hate Titanic.", "id": 4567}
+                        # ]}
+
+    msg_dictionary = {}
+
+
+
 
 
 if __name__ == '__main__':
