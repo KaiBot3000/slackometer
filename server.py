@@ -60,10 +60,12 @@ def slacked():
         first_channel = channel_list[0]
         first_channel_history = get_channel_history(user_token, first_channel)
         
-        print first_channel_history
+        # print first_channel_history
 
-        for message in first_channel_history:
-            print "\n\n", message
+        make_history_dictionary(first_channel_history)
+
+        # for message in first_channel_history:
+        #     print "\n\n", message
 
     return "authorized"
 
@@ -121,7 +123,7 @@ def get_channel_history(token, channel_tuple):
 
     return msg_list
 
-def parse_history(msg_list):
+def make_history_dictionary(msg_list):
     """Converts a message list into a dictionary for sentiment analysis"""
 
     # dictionary = {"data":[
@@ -130,9 +132,16 @@ def parse_history(msg_list):
                         # ]}
 
     msg_dictionary = {}
+    msg_text_list = []
 
+    for msg in msg_list:
+        msg_dict = {}
+        msg_dict["text"] = msg
+        msg_text_list.append(msg_dict)
 
+    msg_dictionary["data"] = msg_text_list
 
+    print msg_dictionary
 
 
 if __name__ == '__main__':
