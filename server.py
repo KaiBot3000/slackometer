@@ -41,26 +41,34 @@ def slacked():
     if check_state(state_returned) is False:
         return "Slack did not return the expected state variable! You've been h4x0r3d."
     else:
+        # OAuth parameters
         params = {"client_id": CLIENT_ID,
                     "client_secret": CLIENT_SECRET,
                     "code": client_code}
 
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
         json_response = requests.get(oauth_url)
-        response = json_response.json()
-        user_token = response["access_token"]
 
+        # parse json response
+        response = json_response.json()
+        # identify user
+        user_token = response["access_token"]
+        # get list of channels for user
         channel_list = get_channel_list(user_token)
+
+        # test: get history for one channel, print it out
         first_channel = channel_list[0]
         first_channel_history = get_channel_history(user_token, first_channel)
         
+        print first_channel_history
+
         for message in first_channel_history:
             print message
 
     return "authorized"
 
 
-# Helper functions
+##################### Helper functions
 
 def randomWord():
     """Generates a random 10 character string, to use as an API verification"""
