@@ -65,9 +65,10 @@ def slacked():
         # print first_channel_history
 
         msg_dictionary = make_history_dictionary(first_channel_history)
-        print msg_dictionary
 
-        sentiment = get_sentiment(msg_dictionary)
+        test_dict = {"data": [{"text": "I love Titanic."}, 
+                    {"text": "I hate Titanic."}]}
+        sentiment = get_sentiment(test_dict)
 
         print sentiment
 
@@ -162,8 +163,8 @@ def clean_msg(msg):
 
 def get_sentiment(msg_dictionary):
     """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
-    print "in get_sentiment"
-    print msg_dictionary
+    print "\n\n\n\nin get_sentiment"
+    # print msg_dictionary
 
     msg_dictionary["appid"] = MYEMAIL
 
@@ -175,8 +176,13 @@ def get_sentiment(msg_dictionary):
 
     return sentiment_response
 
-# test = clean_msg("<something> is a ball of <otherthings>")
-# print test
+test_dict = {"data": [{"text": "I love Titanic."}, 
+                    {"text": "I hate Titanic."}]}
+
+sentiment = get_sentiment(test_dict)
+print sentiment
+print sentiment.headers
+
 
 
 if __name__ == '__main__':
