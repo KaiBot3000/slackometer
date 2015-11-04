@@ -2,6 +2,7 @@ import os, random, string, requests, json
 from flask import Flask, render_template, redirect, request
 from flask_debugtoolbar import DebugToolbarExtension
 from urllib import urlencode
+import re
 
 
 app = Flask(__name__)
@@ -142,6 +143,18 @@ def make_history_dictionary(msg_list):
     msg_dictionary["data"] = msg_text_list
 
     print msg_dictionary
+
+def clean_msg(msg):
+    """Takes single message, removes user tags and links, returns stripped message"""
+
+    # things to remove: <xxx>
+
+    cleaned_msg = re.sub("[<].*?[>]", "", msg)
+
+    return cleaned_msg
+
+test = clean_msg("<something> is a ball of <otherthings>")
+print test
 
 
 if __name__ == '__main__':
