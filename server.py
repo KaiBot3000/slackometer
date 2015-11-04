@@ -131,6 +131,7 @@ def get_channel_history(token, channel_tuple):
 
     return msg_list
 
+
 def make_history_dictionary(msg_list):
     """Converts a message list into a dictionary for sentiment analysis"""
 
@@ -152,14 +153,16 @@ def make_history_dictionary(msg_list):
 
     return msg_dictionary
 
+
 def clean_msg(msg):
     """Takes single message, removes user tags and links, returns stripped message"""
 
-    # things to remove: <xxx>
+    # things to remove: <usernames> <links...>
 
     cleaned_msg = re.sub("[<].*?[>]", "", msg)
 
     return cleaned_msg
+
 
 def get_sentiment(msg_dictionary):
     """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
