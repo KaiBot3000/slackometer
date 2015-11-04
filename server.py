@@ -172,14 +172,11 @@ def get_sentiment(msg_dictionary):
      
     return sentiment_response
 
+# test_dict = {"data": [{"text": "I love Titanic."}, 
+#                     {"text": "I hate Titanic."}]}
 
-# copied a test dictionary from the sentiment140 site, and am using that to test the api call. 
-# getting a 405 - method not allowed
-test_dict = {"data": [{"text": "I love Titanic."}, 
-                    {"text": "I hate Titanic."}]}
-
-sentiment = get_sentiment(test_dict)
-print sentiment
+# sentiment = get_sentiment(test_dict)
+# print sentiment
 
 
 
