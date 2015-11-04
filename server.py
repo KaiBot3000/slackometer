@@ -170,6 +170,29 @@ def get_sentiment(msg_dictionary):
      
     return sentiment_response
 
+def make_sentiment_list(sentiment_dict):
+    """Given the sentiment response dictionary, makes list of just the sentiment values"""
+
+    sentiment_list = []
+
+    for sentiment in sentiment_dict["data"]:
+        sentiment_list.append(sentiment["polarity"])
+
+    return sentiment_list
+
+
+new_response = {"data":[
+                    {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
+                    {"text":"awww!","polarity":2,"meta":{"language":"en"}},
+                    {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
+                    {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
+                    {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
+                    ],
+                "appid":"kai@kaidalgleish.io"}
+
+new_list = make_sentiment_list(new_response)
+print new_list
+
 
 if __name__ == '__main__':
     app.run(debug=True)
