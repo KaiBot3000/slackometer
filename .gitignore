@@ -1,3 +1,4 @@
 /envm
 secrets.sh
 SentimentAnalysisDataset.csv
+*.pyc

@@ -74,9 +74,26 @@ def slacked():
         # sentiment = get_sentiment(msg_dictionary)
 
         # print sentiment
-
+    # should probably redirect to route that builds channel objects, pass user token
     return "authorized"
 
+@app.route("/bubblebuilder.json/", methods=['POST'])
+def build_bubbles():
+    """Gets channel history and builds bubble json"""
+
+    # user_token = get the id from the post request
+
+    # get channel list, using user token
+
+    # for channel, 
+        # build objects
+        # get channel history
+        # add to objects
+
+
+
+
+    # return json for d3 
 
 ##################### Helper functions
 
