@@ -59,17 +59,21 @@ def slacked():
         # get list of channels for user
         channel_list = get_channel_list(user_token)
 
-        # get history for one channel
-        first_channel = channel_list[0]
-        first_channel_history = get_channel_history(user_token, first_channel)
+        for channel in channel_list:
+            # print channel
+            # channel_obj = 
+
+        # # get history for one channel
+        # first_channel = channel_list[0]
+        # first_channel_history = get_channel_history(user_token, first_channel)
         
-        # convert history into python dictionary
-        msg_dictionary = make_history_dictionary(first_channel_history)
+        # # convert history into python dictionary
+        # msg_dictionary = make_history_dictionary(first_channel_history)
 
-        # use API call to get sentiment analysis
-        sentiment = get_sentiment(msg_dictionary)
+        # # use API call to get sentiment analysis
+        # sentiment = get_sentiment(msg_dictionary)
 
-        print sentiment
+        # print sentiment
 
     return "authorized"
 

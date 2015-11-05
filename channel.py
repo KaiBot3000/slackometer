@@ -3,7 +3,6 @@
 class Channel(object):
     # will take in channel tuple
 
-
     def get_channel_history(token, channel_tuple):
         """Given a channel tuple, returns history of the channel"""
 
