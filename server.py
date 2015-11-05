@@ -180,18 +180,18 @@ def make_sentiment_list(sentiment_dict):
 
     return sentiment_list
 
+# # testing make_sentiment_list
+# new_response = {"data":[
+#                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
+#                     {"text":"awww!","polarity":2,"meta":{"language":"en"}},
+#                     {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
+#                     {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
+#                     {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
+#                     ],
+#                 "appid":"kai@kaidalgleish.io"}
 
-new_response = {"data":[
-                    {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
-                    {"text":"awww!","polarity":2,"meta":{"language":"en"}},
-                    {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
-                    {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
-                    {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
-                    ],
-                "appid":"kai@kaidalgleish.io"}
-
-new_list = make_sentiment_list(new_response)
-print new_list
+# new_list = make_sentiment_list(new_response)
+# print new_list
 
 
 if __name__ == '__main__':
