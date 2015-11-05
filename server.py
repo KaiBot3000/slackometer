@@ -53,6 +53,7 @@ def slacked():
         # parse json response
         response = json_response.json()
         # identify user
+        print response
         user_token = response["access_token"]
 
 
@@ -60,20 +61,20 @@ def slacked():
         channel_list = get_channel_list(user_token)
 
         for channel in channel_list:
-            # print channel
+            print channel
             # channel_obj = 
 
-        # # get history for one channel
-        # first_channel = channel_list[0]
-        # first_channel_history = get_channel_history(user_token, first_channel)
+        # get history for one channel
+        first_channel = channel_list[0]
+        first_channel_history = get_channel_history(user_token, first_channel)
         
-        # # convert history into python dictionary
-        # msg_dictionary = make_history_dictionary(first_channel_history)
+        # convert history into python dictionary
+        msg_dictionary = make_history_dictionary(first_channel_history)
 
-        # # use API call to get sentiment analysis
-        # sentiment = get_sentiment(msg_dictionary)
+        # use API call to get sentiment analysis
+        sentiment = get_sentiment(msg_dictionary)
 
-        # print sentiment
+        print sentiment
     # should probably redirect to route that builds channel objects, pass user token
     return "authorized"
 
