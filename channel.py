@@ -3,11 +3,21 @@
 class Channel(object):
     # will take in channel tuple
 
-    def get_channel_history(token, channel_tuple):
-        """Given a channel tuple, returns history of the channel"""
+    def __init__(self, channel_tuple, user_token):
+        self.name = channel_tuple[0]
+        self.id = channel_tuple[1]
+        self.ownertoken = user_token # this is a messy solution
 
-        history_params = {"token": token, 
-                            "channel": channel_tuple[1],
+        # these have been rewritten to be oo
+        self.slack_history = get_channel_history()
+        self.history_dict = make_history_dictionary()
+
+
+    def get_channel_history(self):
+        """Returns history of the channel"""
+
+        history_params = {"token": self.ownertoken, 
+                            "channel": self.id,
                             "inclusive": 1,
                             "count":30
                             }
@@ -23,7 +33,7 @@ class Channel(object):
         return msg_list
 
 
-    def make_history_dictionary(msg_list):
+    def make_history_dictionary(self):
         """Converts a message list into a dictionary for sentiment analysis"""
 
         # dictionary = {"data":[
@@ -34,7 +44,7 @@ class Channel(object):
         msg_dictionary = {}
         msg_text_list = []
 
-        for msg in msg_list:
+        for msg in self.slack_history:
             msg_dict = {}
             msg = clean_msg(msg)
             msg_dict["text"] = msg
@@ -44,8 +54,8 @@ class Channel(object):
 
         return msg_dictionary
 
-
-    def clean_msg(msg):
+# TODO: this should probably take the whole object's messages, not a single message (to be a class method)
+    def clean_msg(self, msg):
         """Takes single message, removes user tags and links, returns stripped message"""
 
         # things to remove: <usernames> <links...>
@@ -55,7 +65,7 @@ class Channel(object):
         return cleaned_msg
 
 
-    def get_sentiment(msg_dictionary):
+    def get_sentiment(self, msg_dictionary):
         """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
 
         msg_dictionary["appid"] = MYEMAIL
@@ -66,7 +76,7 @@ class Channel(object):
          
         return sentiment_response
 
-    def make_sentiment_list(sentiment_dict):
+    def make_sentiment_list(self, sentiment_dict):
         """Given the sentiment response dictionary, makes list of just the sentiment values"""
 
         sentiment_list = []
