@@ -25,8 +25,8 @@ def index_page():
 
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
-                "state": state,
-                "team": "ladynerds"}
+                "scope": "channels:history channels:read",
+                "state": state}
 
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
@@ -43,13 +43,19 @@ def slacked():
     if check_state(state_returned) is False:
         return "Slack did not return the expected state variable! You've been h4x0r3d."
     else:
+
+        print CLIENT_SECRET
         # OAuth parameters
-        params = {"client_id": CLIENT_ID,
-                    "client_secret": CLIENT_SECRET,
+        params = {"client_id": CLIENT_ID.strip(),
+                    "client_secret": CLIENT_SECRET.strip(),
                     "code": client_code}
+        
+        print "\n\n\n", CLIENT_SECRET
+        print params
+        print urlencode(params)
 
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
-        print "\n\n\n", params
+        
 
         json_response = requests.get(oauth_url)
         # parse json response
@@ -106,11 +112,27 @@ def slacked():
 def bubble():
     """Test route for building d3 bubble chart"""
 
-    return render_template("bubble.html")
+    return render_template("cats.html")
+
+
+@app.route("/cats.json")
+def send_cats():
+    """Test route for building d3 bubble chart"""
+
+    cats = {"name": "cats",
+            "children": [
+            {"name": "Guido", "size": 160},
+            {"name": "Darwin", "size": 110},
+            {"name": "Mika", "size": 100},
+            {"name": "Kitin", "size": 150},
+            {"name": "Pirate Jack", "size": 180}
+            ]}
+
+    return jsonify(cats)
 
 
 @app.route("/flare.json")
-def send_json():
+def send_flare():
     """Test route for building d3 bubble chart"""
 
     flare = {"name": "flare",
@@ -493,8 +515,9 @@ def send_json():
              ]
             }
 
-
     return jsonify(flare)
+
+
 
 ##################### Helper functions
 
@@ -615,7 +638,17 @@ def make_sentiment_list(self, sentiment_dict):
 # new_list = make_sentiment_list(new_response)
 # print new_list
 
-
+# colors = RdYlGn: {
+# 3: ["#fc8d59","#ffffbf","#91cf60"],
+# 4: ["#d7191c","#fdae61","#a6d96a","#1a9641"],
+# 5: ["#d7191c","#fdae61","#ffffbf","#a6d96a","#1a9641"],
+# 6: ["#d73027","#fc8d59","#fee08b","#d9ef8b","#91cf60","#1a9850"],
+# 7: ["#d73027","#fc8d59","#fee08b","#ffffbf","#d9ef8b","#91cf60","#1a9850"],
+# 8: ["#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850"],
+# 9: ["#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850"],
+# 10: ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"],
+# 11: ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]
+# }
 
 if __name__ == '__main__':
     app.run(debug=True)
