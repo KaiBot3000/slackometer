@@ -138,11 +138,11 @@ def send_cats():
 
     cats = {"name": "cats",
             "children": [
-            {"name": "Guido", "size": 160},
-            {"name": "Darwin", "size": 110},
-            {"name": "Mika", "size": 100},
-            {"name": "Kitin", "size": 150},
-            {"name": "Pirate Jack", "size": 180}
+            {"name": "Guido", "value": 160},
+            {"name": "Darwin", "value": 110},
+            {"name": "Mika", "value": 100},
+            {"name": "Kitin", "value": 150},
+            {"name": "Pirate Jack", "value": 180}
             ]}
 
     return jsonify(cats)

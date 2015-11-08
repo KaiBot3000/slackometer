@@ -35,11 +35,13 @@ d3.json("cats.json", function(error, root) {
   // error out if no cats
   if (error) throw error;
 
-  console.log(root);
+  console.log(root["children"]);
+  console.log(classes(root));
   // every circle is actually a node
   var node = svg.selectAll(".node")
-      // .data(bubble.nodes(root))
-      .data(bubble.nodes(classes(root))
+      .data(bubble.nodes(root)
+      // .data(bubble.nodes(classes(root))
+      // this filters out any nodes with children (the giant circle)
       .filter(function(d) { return !d.children; }))
       // g is the svg element
       .enter().append("g")
@@ -66,11 +68,13 @@ d3.json("cats.json", function(error, root) {
   node.append("text")
       .attr("dy", ".3em")
       .style("text-anchor", "middle")
-      .text(function(d) { return d.className.substring(0, d.r / 3); });
+      // .text(function(d) { return d.className.substring(0, d.r / 3); });
 } );
 
 // Don't need this for cats
 // Returns a flattened hierarchy containing all leaf nodes under the root.
+
+
 function classes(root) {
   var classes = [];
 
