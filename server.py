@@ -82,10 +82,18 @@ def slacked():
         # print sentiment_list
 
         for channel in channel_list:
+            print "*****************", channel
+            print "getting channel history:"
             channel_history = get_channel_history(user_token, channel)
+            print channel_history
+            print "getting msg dict:"
             msg_dictionary = make_history_dictionary(channel_history)
+            print "getting sent dict:"
             sentiment_dict = get_sentiment(msg_dictionary)
+            print "getting sent list:"
             sentiment_list = make_sentiment_list(sentiment_dict)
+            print sentiment_list
+            print "getting sent tup:"
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
             print sentiment_tuple
@@ -603,9 +611,16 @@ def make_history_dictionary(msg_list):
 def clean_msg(msg):
     """Takes single message, removes user tags and links, returns stripped message"""
 
-    # things to remove: <usernames> <links...>
+    # things to remove: <usernames> <links...> emoticons?!
 
-    cleaned_msg = re.sub("[<].*?[>]", "", msg)
+    stripped_msg = re.sub("[<].*?[>]", "", msg)
+
+    # nope. decoding unicode not supported (it's already unicode)
+    # cleaned_msg = unicode(stripped_msg, errors='ignore')
+
+    # cleaned_msg = stripped_msg.encode("utf-8")
+
+    cleaned_msg = stripped_msg
 
     return cleaned_msg
 
@@ -616,11 +631,14 @@ def get_sentiment(msg_dictionary):
     # add my email to the call, as requested by Sentiment140
     msg_dictionary["appid"] = MYEMAIL
     # convert to json
+    print "converting:"
     sentiment_data = json.dumps(msg_dictionary)
 
+    print "making call:"
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
+    print "reading response:"
     sentiment_response = sentiment_api_call.read()
-
+    print "converting to python dict:"
     # convert to python dictionary
     sentiment_response_dict = json.loads(sentiment_response)
      
