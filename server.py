@@ -85,14 +85,14 @@ def slacked():
             # print "*****************", channel
             # print "getting channel history:"
             channel_history = get_channel_history(user_token, channel)
-            print channel_history
+            # print channel_history
             # print "getting msg dict:"
             msg_dictionary = make_history_dictionary(channel_history)
             # print "getting sent dict:"
             sentiment_dict = get_sentiment(msg_dictionary)
             # print "getting sent list:"
             sentiment_list = make_sentiment_list(sentiment_dict)
-            print sentiment_list
+            # print sentiment_list
             # print "getting sent tup:"
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
@@ -102,6 +102,7 @@ def slacked():
     # return redirect("/bubblebuilder.json", user_token=user_token)
 
     return "authorized"
+
 
 # @app.route("/bubblebuilder.json")
 # def build_bubbles():
@@ -120,6 +121,7 @@ def slacked():
 
 
     # return json for d3 
+
 
 @app.route("/bubble")
 def bubble():
@@ -652,15 +654,17 @@ def make_sentiment_list(sentiment_dict):
 
     return sentiment_list
 
+
 def process_sentiment_list(sentiment_list):
     """Given a sentiment list, returns a tuple of length and avg value"""
 
     if sentiment_list:
-        sentiment_tuple = (len(sentiment_list), (sum(sentiment_list) / len(sentiment_list)))
+        sentiment_tuple = (len(sentiment_list), (float(sum(sentiment_list)) / len(sentiment_list)))
     else:
-        sentiment_tuple = (0, 0)
+        sentiment_tuple = (0, 0.0)
 
     return sentiment_tuple
+
 
 # new_response = {"data":[
 #                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
