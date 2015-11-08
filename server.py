@@ -70,6 +70,7 @@ def slacked():
         # # get history for one channel
         # first_channel = channel_list[0]
         # first_channel_history = get_channel_history(user_token, first_channel)
+        # print first_channel_history
         
         # # convert history into python dictionary
         # msg_dictionary = make_history_dictionary(first_channel_history)
@@ -97,7 +98,7 @@ def slacked():
             # print "getting sent tup:"
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
-            print sentiment_tuple
+            print sentiment_tuple, channel[0]
 
     # should probably redirect to route that builds channel objects, pass user token
     # return redirect("/bubblebuilder.json", user_token=user_token)
@@ -145,6 +146,13 @@ def send_cats():
             ]}
 
     return jsonify(cats)
+
+
+@app.route("/flare")
+def flare():
+    """Test route for building d3 bubble chart"""
+
+    return render_template("bubble.html")   
 
 
 @app.route("/flare.json")

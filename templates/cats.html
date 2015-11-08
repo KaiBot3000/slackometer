@@ -36,23 +36,27 @@ d3.json("cats.json", function(error, root) {
   if (error) throw error;
 
   console.log(root);
+  // every circle is actually a node
   var node = svg.selectAll(".node")
       // .data(bubble.nodes(root))
-      .data(bubble.nodes(classes(root)))
-      // .filter(function(d) { return !d.children; }))
+      .data(bubble.nodes(classes(root))
+      .filter(function(d) { return !d.children; }))
+      // g is the svg element
       .enter().append("g")
+      // add 'node' class
       .attr("class", "node")
+      // transform is another attribute, which determines location
       .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   // add a title to the node
   node.append("title")
       // .text(function(d) { return d.className + ": " + format(d.value); });
-      .text("cats");
+      .text("cat");
 
   // add a circle element to the node
   node.append("circle")
-      .attr("r", function(d) { return d.size; })
-      // .style("fill", "red");
+      .attr("r", function(d) { return d.r; })
+      .style("fill", "red");
       // .style("fill", function(d) { return color(d.packageName); });
 
   // add some text to the node (title?)
@@ -60,7 +64,7 @@ d3.json("cats.json", function(error, root) {
   //     .attr("dy", ".3em")
   //     .style("text-anchor", "middle")
   //     .text(function(d) { return d.className.substring(0, d.r / 3); });
-});
+} );
 
 // Don't need this for cats
 // Returns a flattened hierarchy containing all leaf nodes under the root.
