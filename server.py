@@ -43,19 +43,12 @@ def slacked():
     if check_state(state_returned) is False:
         return "Slack did not return the expected state variable! You've been h4x0r3d."
     else:
-
-        print CLIENT_SECRET
         # OAuth parameters
         params = {"client_id": CLIENT_ID.strip(),
-                    "client_secret": CLIENT_SECRET.strip(),
+                    "client_secret": CLIENT_SECRET.strip(), # was having issue with a \r, can't find it :(
                     "code": client_code}
-        
-        print "\n\n\n", CLIENT_SECRET
-        print params
-        print urlencode(params)
 
-        oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)
-        
+        oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)       
 
         json_response = requests.get(oauth_url)
         # parse json response
