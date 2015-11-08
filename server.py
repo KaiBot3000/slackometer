@@ -82,18 +82,18 @@ def slacked():
         # print sentiment_list
 
         for channel in channel_list:
-            print "*****************", channel
-            print "getting channel history:"
+            # print "*****************", channel
+            # print "getting channel history:"
             channel_history = get_channel_history(user_token, channel)
             print channel_history
-            print "getting msg dict:"
+            # print "getting msg dict:"
             msg_dictionary = make_history_dictionary(channel_history)
-            print "getting sent dict:"
+            # print "getting sent dict:"
             sentiment_dict = get_sentiment(msg_dictionary)
-            print "getting sent list:"
+            # print "getting sent list:"
             sentiment_list = make_sentiment_list(sentiment_dict)
             print sentiment_list
-            print "getting sent tup:"
+            # print "getting sent tup:"
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
             print sentiment_tuple
@@ -631,16 +631,13 @@ def get_sentiment(msg_dictionary):
     # add my email to the call, as requested by Sentiment140
     msg_dictionary["appid"] = MYEMAIL
     # convert to json
-    print "converting:"
     sentiment_data = json.dumps(msg_dictionary)
 
-    print "making call:"
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
-    print "reading response:"
     sentiment_response = sentiment_api_call.read()
-    print "converting to python dict:"
     # convert to python dictionary
-    sentiment_response_dict = json.loads(sentiment_response)
+    # ignores character like emoticons which were throwinf unicode errors
+    sentiment_response_dict = json.loads(sentiment_response.decode("utf-8","ignore"))
      
     return sentiment_response_dict
 
