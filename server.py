@@ -54,7 +54,7 @@ def slacked():
         # parse json response
         response = json_response.json()
         # identify user
-        print response
+        # print response
         user_token = response["access_token"]
 
 
@@ -63,10 +63,9 @@ def slacked():
         # get list of channels for user
         channel_list = get_channel_list(user_token)
 
-        for channel in channel_list:
-            print channel
+        # for channel in channel_list:
+        #     print channel
             
-
         # get history for one channel
         first_channel = channel_list[0]
         first_channel_history = get_channel_history(user_token, first_channel)
@@ -78,6 +77,9 @@ def slacked():
         sentiment = get_sentiment(msg_dictionary)
 
         print sentiment
+
+        sentiment_list = make_sentiment_list(sentiment)
+        print sentiment_list
     # should probably redirect to route that builds channel objects, pass user token
     # return redirect("/bubblebuilder.json", user_token=user_token)
 
@@ -544,6 +546,8 @@ def get_channel_list(token):
         channel_list.append(channel_tuple)
 
     return channel_list
+
+
 def get_channel_history(token, channel_tuple):
         """Returns history of the channel"""
 
@@ -604,16 +608,25 @@ def get_sentiment(msg_dictionary):
 
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
     sentiment_response = sentiment_api_call.read()
+    sentiment_response_dict = json.loads(sentiment_response)
      
-    return sentiment_response
+    return sentiment_response_dict
 
 
-def make_sentiment_list(self, sentiment_dict):
+def make_sentiment_list(sentiment_dict):
     """Given the sentiment response dictionary, makes list of just the sentiment values"""
 
     sentiment_list = []
+    
+    print "\n\n\n"
+
+    print type(sentiment_dict)
+
+    print sentiment_dict["data"]
+    print type(sentiment_dict["data"])
 
     for sentiment in sentiment_dict["data"]:
+        print sentiment
         sentiment_list.append(sentiment["polarity"])
 
     return sentiment_list
