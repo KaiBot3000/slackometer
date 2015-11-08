@@ -3,7 +3,7 @@
 <style>
 
 text {
-  font: 10px sans-serif;
+  font: 20px sans-serif;
 }
 
 </style>
@@ -55,15 +55,18 @@ d3.json("cats.json", function(error, root) {
 
   // add a circle element to the node
   node.append("circle")
+      //  add the radius (calculated where?)
       .attr("r", function(d) { return d.r; })
-      .style("fill", "red");
+      .style("fill", "red")
+      .style("stroke", "black")
+      .style("stroke-width", "2");
       // .style("fill", function(d) { return color(d.packageName); });
 
   // add some text to the node (title?)
-  // node.append("text")
-  //     .attr("dy", ".3em")
-  //     .style("text-anchor", "middle")
-  //     .text(function(d) { return d.className.substring(0, d.r / 3); });
+  node.append("text")
+      .attr("dy", ".3em")
+      .style("text-anchor", "middle")
+      .text(function(d) { return d.className.substring(0, d.r / 3); });
 } );
 
 // Don't need this for cats
