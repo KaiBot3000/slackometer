@@ -3,7 +3,8 @@ from flask import Flask, render_template, redirect, request, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from urllib import urlencode, urlopen
 import re
-from channel import Channel
+# from channel import Channel
+from time import time
 
 
 app = Flask(__name__)
@@ -571,10 +572,15 @@ def get_channel_list(token):
 def get_channel_history(token, channel_tuple):
         """Returns history of the channel"""
 
+        ONE_WEEK_SEC = 604800
+        epoch_time = time()
+        one_week_ago = epoch_time - ONE_WEEK_SEC
+
         history_params = {"token": token, 
                             "channel": channel_tuple[1],
                             "inclusive": 1,
-                            "count":100
+                            # "count":100
+                            "oldest": one_week_ago
                             }
         history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
         json_history = requests.get(history_url)
@@ -603,6 +609,7 @@ def make_history_dictionary(msg_list):
     for msg in msg_list:
         msg_dict = {}
         msg = clean_msg(msg)
+
         if msg in skip_msg_list:
             continue
         else:
