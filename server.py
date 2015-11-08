@@ -63,23 +63,33 @@ def slacked():
         # get list of channels for user
         channel_list = get_channel_list(user_token)
 
-        # for channel in channel_list:
-        #     print channel
+        # # for channel in channel_list:
+        # #     print channel
             
-        # get history for one channel
-        first_channel = channel_list[0]
-        first_channel_history = get_channel_history(user_token, first_channel)
+        # # get history for one channel
+        # first_channel = channel_list[0]
+        # first_channel_history = get_channel_history(user_token, first_channel)
         
-        # convert history into python dictionary
-        msg_dictionary = make_history_dictionary(first_channel_history)
+        # # convert history into python dictionary
+        # msg_dictionary = make_history_dictionary(first_channel_history)
 
-        # use API call to get sentiment analysis
-        sentiment = get_sentiment(msg_dictionary)
+        # # use API call to get sentiment analysis
+        # sentiment = get_sentiment(msg_dictionary)
 
-        print sentiment
+        # print sentiment
 
-        sentiment_list = make_sentiment_list(sentiment)
-        print sentiment_list
+        # sentiment_list = make_sentiment_list(sentiment)
+        # print sentiment_list
+
+        for channel in channel_list:
+            channel_history = get_channel_history(user_token, channel)
+            msg_dictionary = make_history_dictionary(channel_history)
+            sentiment_dict = get_sentiment(msg_dictionary)
+            sentiment_list = make_sentiment_list(sentiment_dict)
+            sentiment_tuple = process_sentiment_list(sentiment_list)
+
+            print sentiment_tuple
+
     # should probably redirect to route that builds channel objects, pass user token
     # return redirect("/bubblebuilder.json", user_token=user_token)
 
@@ -554,7 +564,7 @@ def get_channel_history(token, channel_tuple):
         history_params = {"token": token, 
                             "channel": channel_tuple[1],
                             "inclusive": 1,
-                            "count":30
+                            "count":100
                             }
         history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
         json_history = requests.get(history_url)
@@ -589,7 +599,7 @@ def make_history_dictionary(msg_list):
 
     return msg_dictionary
 
-# TODO: this should probably take the whole object's messages, not a single message (to be a class method)
+
 def clean_msg(msg):
     """Takes single message, removes user tags and links, returns stripped message"""
 
@@ -627,6 +637,15 @@ def make_sentiment_list(sentiment_dict):
 
     return sentiment_list
 
+def process_sentiment_list(sentiment_list):
+    """Given a sentiment list, returns a tuple of length and avg value"""
+
+    if sentiment_list:
+        sentiment_tuple = (len(sentiment_list), (sum(sentiment_list) / len(sentiment_list)))
+    else:
+        sentiment_tuple = (0, 0)
+
+    return sentiment_tuple
 
 # new_response = {"data":[
 #                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
