@@ -598,12 +598,16 @@ def make_history_dictionary(msg_list):
 
     msg_dictionary = {}
     msg_text_list = []
+    skip_msg_list = [" has joined the channel", " has left the channel"]
 
     for msg in msg_list:
         msg_dict = {}
         msg = clean_msg(msg)
-        msg_dict["text"] = msg
-        msg_text_list.append(msg_dict)
+        if msg in skip_msg_list:
+            continue
+        else:
+            msg_dict["text"] = msg
+            msg_text_list.append(msg_dict)
 
     msg_dictionary["data"] = msg_text_list
 
