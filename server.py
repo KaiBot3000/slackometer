@@ -603,11 +603,15 @@ def clean_msg(msg):
 def get_sentiment(msg_dictionary):
     """Given a message dictionary, makes an API call to Sentiment140 to get sentiments"""
 
+    # add my email to the call, as requested by Sentiment140
     msg_dictionary["appid"] = MYEMAIL
+    # convert to json
     sentiment_data = json.dumps(msg_dictionary)
 
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
     sentiment_response = sentiment_api_call.read()
+
+    # convert to python dictionary
     sentiment_response_dict = json.loads(sentiment_response)
      
     return sentiment_response_dict
@@ -617,16 +621,8 @@ def make_sentiment_list(sentiment_dict):
     """Given the sentiment response dictionary, makes list of just the sentiment values"""
 
     sentiment_list = []
-    
-    print "\n\n\n"
-
-    print type(sentiment_dict)
-
-    print sentiment_dict["data"]
-    print type(sentiment_dict["data"])
 
     for sentiment in sentiment_dict["data"]:
-        print sentiment
         sentiment_list.append(sentiment["polarity"])
 
     return sentiment_list
