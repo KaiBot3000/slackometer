@@ -108,7 +108,7 @@ def slacked():
     # should probably redirect to route that builds channel objects, pass user token
     # return redirect("/bubblebuilder.json", user_token=user_token)
     # print channel_tuple_list
-    return "authorized"
+    return redirect("/bubble")
 
 
 # @app.route("/bubblebuilder.json")
@@ -134,16 +134,18 @@ def slacked():
 def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
-    channel_data = {"channels": []}
+    channel_data = {"name": "channels",
+                    "children": []
+                    }
 
     for channel in channel_tuple_list:
         channel_dict = {}
 
         channel_dict["name"] = channel[0]
-        channel_dict["size"] = channel[1]
+        channel_dict["value"] = channel[1]
         channel_dict["sentiment"] = channel[2]
 
-        channel_data["channels"].append(channel_dict)
+        channel_data["children"].append(channel_dict)
 
     print channel_data
 

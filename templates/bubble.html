@@ -33,9 +33,10 @@ var svg = d3.select("body").append("svg")
   .attr("class", "bubble");
 
 // make a server call to get data
-d3.json("cats.json", function(error, root) {
+d3.json("channel_data.json", function(error, root) {
   // error out if no data
   if (error) throw error;
+  console.log(root);
 
   // every circle is a node
   var node = svg.selectAll(".node")
@@ -61,14 +62,14 @@ d3.json("cats.json", function(error, root) {
     .style("fill", function(d) { return color(d.sentiment);});
     // Trying to make empty channels grey, and failing
     // .style("fill", function(d) { 
-    //       if (parseInt((d.sentiment) > 0) {
-    //         console.log("big");
-    //         console.log(typeof(d.sentiment));
-    //         return color(d.sentiment);
-    //       } else {
-    //         console.log("zero");
-    //         return  "#D3D3D3";
-    //       }});
+  //       if (parseInt((d.sentiment) > 0) {
+  //         console.log("big");
+  //         console.log(typeof(d.sentiment));
+  //         return color(d.sentiment);
+  //       } else {
+  //         console.log("zero");
+  //         return  "#D3D3D3";
+  //       }});
     // .style("stroke", "black")
       // .style("stroke-width", "-2");
 
