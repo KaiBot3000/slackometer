@@ -24,13 +24,11 @@ def index_page():
 
     global state
     state = randomWord()
-    channel_tuple_list = [] # Clear list from last import
 
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
                 "scope": "channels:history channels:read",
                 "state": state}
-    print urlencode(params)
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
     return redirect(oauth_url)
@@ -65,30 +63,20 @@ def slacked():
         channel_list = get_channel_list(user_token)
 
         for channel in channel_list:
-            # print "*****************", channel
-            # print "getting channel history:"
             channel_history = get_channel_history(user_token, channel)
-            # print channel_history
-            # print "getting msg dict:"
             msg_dictionary = make_history_dictionary(channel_history)
-            # print "getting sent dict:"
             sentiment_dict = get_sentiment(msg_dictionary)
-            # print "getting sent list:"
             sentiment_list = make_sentiment_list(sentiment_dict)
-            # print sentiment_list
-            # print "getting sent tup:"
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
             # I know this is terrible...
-
             channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
+
             channel_tuple_list.append(channel_tuple)
-            # print channel_tuple
 
     # should probably redirect to route that builds channel objects, pass user token
     # this way refreshing graph can be separated from login
     # return redirect("/bubblebuilder.json", user_token=user_token)
-    # print channel_tuple_list
     return redirect("/bubble")
 
 

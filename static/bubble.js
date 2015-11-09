@@ -40,6 +40,7 @@ d3.json("channel_data.json", function(error, root) {
   node.append("title")
     .text(function(d) { return d.name; });
 
+
   // add a circle element to the node
   node.append("circle")
     .attr("r", function(d) { return d.r; })
