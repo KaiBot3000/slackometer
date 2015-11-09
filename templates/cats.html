@@ -58,9 +58,12 @@ d3.json("cats.json", function(error, root) {
   node.append("circle")
       //  add the radius (calculated where?)
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return d.color })
-      .style("stroke", "black")
-      .style("stroke-width", "-2");
+      .style("fill", function(d) { return color(d.sentiment); })
+      // .style("fill", function(d) { return d3.scale.linear(d.sentiment).domain([0,4]).range(["red","green"]) })
+
+      // var ramp=d3.scale.linear(d.sentiment).domain([0,4]).range(["red","green"]);
+      // .style("stroke", "black")
+      // .style("stroke-width", "-2");
       // .style("fill", function(d) { return color(d.packageName); });
 
   // add some text to the node (title?)
@@ -70,6 +73,10 @@ d3.json("cats.json", function(error, root) {
       .text(function(d) { return d.name; });
       // .text(function(d) { return d.className.substring(0, d.r / 3); });
 } );
+
+var color = d3.scale.linear()
+    .domain([0, 2, 4])
+    .range(["red", "yellow", "green"]);
 
 // Don't need this for cats
 // Returns a flattened hierarchy containing all leaf nodes under the root.
