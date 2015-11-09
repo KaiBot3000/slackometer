@@ -91,6 +91,13 @@ def slacked():
     return redirect("/bubble")
 
 
+@app.route("/bubble")
+def bubble():
+    """d3 test run"""
+
+    return render_template("bubble.html")
+
+
 # @app.route("/bubblebuilder.json")
 # def build_bubbles():
 #     """Gets channel history and builds bubble json"""
@@ -127,13 +134,6 @@ def make_channel_data():
             channel_data["children"].append(channel_dict)
 
     return jsonify(channel_data)
-
-
-@app.route("/bubble")
-def bubble():
-    """d3 test run"""
-
-    return render_template("bubble.html")
 
 
 # @app.route("/cats.json")
