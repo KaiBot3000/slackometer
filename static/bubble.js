@@ -42,9 +42,9 @@ d3.json("channel_data.json", function(error, root) {
 
   // add a circle element to the node
   node.append("circle")
-    //  add the radius (calculated where?)
     .attr("r", function(d) { return d.r; })
     .style("fill", function(d) { return color(d.sentiment);});
+
     // Trying to make empty channels grey, and failing
     // .style("fill", function(d) { 
   //       if (parseInt((d.sentiment) > 0) {
@@ -58,11 +58,30 @@ d3.json("channel_data.json", function(error, root) {
     // .style("stroke", "black")
       // .style("stroke-width", "-2");
 
+  // For each node, include an invisible rectangle for text-wrapping boundaries.
+  // rectangle appears but is in the wrong spot
+  node.append("rect")
+    .attr('id', function(d){ return "rect"+d.value; })
+    .attr("x", function(d){ return d.x })
+    .attr("y", function(d){ return d.y })
+    .attr("width", function(d) { return (d.r * 2);})
+    .style("opacity", '0.5') // increased opacity for debugging only
+    .attr("height", function(d) { return (d.r * 2);});
+
   // add some text to the node (title?)
+  // node.append("text")
+  //   .attr("dy", ".3em")
+  //   .style("text-anchor", "middle")
+  //   .text(function(d) { return d.name; });
+
+  // this should add text so that it wraps
   node.append("text")
+    .attr('id', function(d){ return "text"+d.value; })
     .attr("dy", ".3em")
     .style("text-anchor", "middle")
-    .text(function(d) { return d.name; });
+    .text(function(d) {
+         return d.name.substring(0, d.r / 3);
+       });
 } );
 
 // ??
