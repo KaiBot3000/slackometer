@@ -24,6 +24,7 @@ def index_page():
 
     global state
     state = randomWord()
+    channel_tuple_list = [] # Clear list from last import
 
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
@@ -132,8 +133,6 @@ def make_channel_data():
             channel_dict["sentiment"] = channel[2]
 
             channel_data["children"].append(channel_dict)
-    print "data: "        
-    print channel_data
 
     return jsonify(channel_data)
 

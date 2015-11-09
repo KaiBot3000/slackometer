@@ -77,6 +77,7 @@ d3.json("channel_data.json", function(error, root) {
   // this should add text so that it wraps
   node.append("text")
     .attr('id', function(d){ return "text"+d.value; })
+    .attr("class", "bubble-text")
     .attr("dy", ".3em")
     .style("text-anchor", "middle")
     .text(function(d) {
