@@ -55,8 +55,9 @@ def slacked():
         json_response = requests.get(oauth_url)
         # parse json response
         response = json_response.json()
+        
         # identify user
-        # print response
+        print response
         user_token = response["access_token"]
 
 
@@ -141,11 +142,13 @@ def make_channel_data():
     for channel in channel_tuple_list:
         channel_dict = {}
 
-        channel_dict["name"] = channel[0]
-        channel_dict["value"] = channel[1]
-        channel_dict["sentiment"] = channel[2]
+        if channel[1] > 0:
 
-        channel_data["children"].append(channel_dict)
+            channel_dict["name"] = channel[0]
+            channel_dict["value"] = channel[1]
+            channel_dict["sentiment"] = channel[2]
+
+            channel_data["children"].append(channel_dict)
 
     print channel_data
 
