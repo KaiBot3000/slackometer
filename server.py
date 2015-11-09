@@ -29,7 +29,7 @@ def index_page():
                 "redirect_uri": "http://localhost:5000/slacked",
                 "scope": "channels:history channels:read",
                 "state": state}
-
+    print urlencode(params)
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
     return redirect(oauth_url)
