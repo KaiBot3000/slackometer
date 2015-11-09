@@ -127,11 +127,13 @@ def make_channel_data():
 
         if channel[1] > 0:
 
-            channel_dict["name"] = channel[0]
+            channel_dict["name"] = channel[0].replace("-", " ")
             channel_dict["value"] = channel[1]
             channel_dict["sentiment"] = channel[2]
 
             channel_data["children"].append(channel_dict)
+    print "data: "        
+    print channel_data
 
     return jsonify(channel_data)
 
