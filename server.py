@@ -141,8 +141,8 @@ def send_cats():
             {"name": "Guido", "value": 160, "color": "black", "sentiment": 1.25},
             {"name": "Darwin", "value": 110, "color": "chocolate", "sentiment": 2.4},
             {"name": "Mika", "value": 100, "color": "black", "sentiment": 4},
-            {"name": "Kitin", "value": 150, "color": "orange", "sentiment": 0},
-            {"name": "Pirate Jack", "value": 180, "color": "saddlebrown", "sentiment": 2.1}
+            {"name": "Kitin", "value": 150, "color": "orange", "sentiment": -1},
+            {"name": "Pirate Jack", "value": 180, "color": "saddlebrown", "sentiment": 0.25}
             ]}
 
     return jsonify(cats)

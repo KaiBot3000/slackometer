@@ -29,7 +29,6 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-
 // make a server call to get data
 d3.json("cats.json", function(error, root) {
   // error out if no data
@@ -56,10 +55,19 @@ d3.json("cats.json", function(error, root) {
   node.append("circle")
       //  add the radius (calculated where?)
       .attr("r", function(d) { return d.r; })
-      .style("fill", function(d) { return color(d.sentiment); });
+      .style("fill", function(d) { return color(d.sentiment);});
+      // Trying to make empty channels grey, and failing
+      // .style("fill", function(d) { 
+      //       if (parseInt((d.sentiment) > 0) {
+      //         console.log("big");
+      //         console.log(typeof(d.sentiment));
+      //         return color(d.sentiment);
+      //       } else {
+      //         console.log("zero");
+      //         return  "#D3D3D3";
+      //       }});
       // .style("stroke", "black")
       // .style("stroke-width", "-2");
-
 
   // add some text to the node (title?)
   node.append("text")
@@ -69,8 +77,8 @@ d3.json("cats.json", function(error, root) {
 } );
 
 var color = d3.scale.linear()
-    .domain([0, 2, 4])
-    .range(["red", "yellow", "green"]);
+    .domain([0, 0.1, 2, 4])
+    .range(["gray", "red", "yellow", "green"]);
 
 // ??
 d3.select(self.frameElement).style("height", diameter + "px");
