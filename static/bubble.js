@@ -1,3 +1,5 @@
+d3.select("svg").remove();
+
 var diameter = 960;
 
 var format = d3.format(",d"); // used in node title

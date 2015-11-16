@@ -112,6 +112,7 @@ def bubble():
 def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
+    channel_data = {}
     channel_data = {"name": "channels",
                     "children": []
                     }

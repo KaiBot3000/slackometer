@@ -52,3 +52,8 @@ body {
 .center {
   text-align: center;
 }
+
+.tooltip {
+  font-family: 'Roboto', sans-serif;
+  font-size: 35px;
+}
