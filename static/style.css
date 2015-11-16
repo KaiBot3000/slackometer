@@ -1,0 +1,20 @@
+body {
+  background-color: #878787;
+}
+
+.bubble-text {
+  font: 20px sans-serif;
+  color: green;
+  z-index: 1;
+}
+
+.node:hover {
+  border: 3px solid #696969;
+}
+
+.title {
+  font-family: 'Lobster', cursive;
+  font-size: 80px;
+  text-align: center;
+  color: white;
+}
