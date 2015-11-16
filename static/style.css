@@ -1,5 +1,6 @@
 body {
   background-color: #878787;
+  color: white;
 }
 
 .bubble-text {
@@ -16,5 +17,18 @@ body {
   font-family: 'Lobster', cursive;
   font-size: 80px;
   text-align: center;
-  color: white;
+
+}
+
+.welcome {
+  color: #B1FB17;
+  padding: 50px;
+}
+
+.textblock {
+  font-family: 'Roboto', sans-serif;
+  font-size: 35px;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }
