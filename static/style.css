@@ -36,12 +36,21 @@ body {
   background-color: #B1FB17;
   box-shadow: 30px 30px 30px #888888;
   border-radius: 20px;
+  outline: 0 none;
   color: #878787;
   font-family: 'Lobster', cursive;
   font-size: 35px;
   white-space: nowrap;
   padding: 10px;
   margin: 50px;
+}
+
+.button:hover {
+  color: #b3b3b3;
+}
+
+.button: {
+  color: white;
 }
 
 .center {
