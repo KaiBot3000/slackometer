@@ -1,6 +1,7 @@
 d3.select("svg").remove();
 
-var diameter = 960;
+// Make the pack fit in the browser, accounting for the title (hard coded)
+var diameter = Math.min(window.innerWidth, (window.innerHeight - 80));
 
 var format = d3.format(",d"); // used in node title
 
@@ -16,10 +17,11 @@ var bubble = d3.layout.pack()
   .padding(3);
 
 // Add an svg element to the body with a width, height, and class
-var svg = d3.select("body").append("svg")
+var svg = d3.select(".bubble").append("svg")
   .attr("width", diameter)
   .attr("height", diameter)
-  .attr("class", "bubble");
+  .attr("class", "bubble")
+  .attr("class", "center");
 
 // make a server call to get data
 d3.json("channel_data.json", function(error, root) {
