@@ -29,10 +29,21 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 35px;
   width: 50%;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
 }
 
 .button {
-  
+  background-color: #B1FB17;
+  box-shadow: 30px 30px 30px #888888;
+  border-radius: 20px;
+  color: #878787;
+  font-family: 'Lobster', cursive;
+  font-size: 35px;
+  white-space: nowrap;
+  padding: 10px;
+  margin: 50px;
+}
+
+.center {
+  text-align: center;
 }
