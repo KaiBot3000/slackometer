@@ -9,6 +9,10 @@ var color = d3.scale.linear()
     .domain([0, 2, 4])
     .range(["red", "yellow", "green"]);
 
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
+
 // make a bubble, packed, with size and padding
 // If I use .force() instead of .pack(), I can make it wiggle
 var bubble = d3.layout.pack()
@@ -38,11 +42,23 @@ d3.json("channel_data.json", function(error, root) {
     .enter().append("g")
     .attr("class", "node")
     // transform determines location, and are calculate by d3
-    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"})
+    .on("mouseover", function(d) {    
+      div.transition()    
+          .duration(200)    
+          .style("opacity", .9);    
+      div .html(d.name + "<br/>"  + "Hello!")  
+          .style("left", (d3.event.pageX) + "px")   
+          .style("top", (d3.event.pageY - 28) + "px");  
+    })          
+    .on("mouseout", function(d) {   
+      div.transition()    
+          .duration(500)    
+          .style("opacity", 0); });
 
-  // add a title to the node
-  node.append("title")
-    .text(function(d) { return d.name; });
+  // // add a title to the node
+  // node.append("title")
+  //   .text(function(d) { return d.name; });
 
   // add a circle element to the node
   node.append("circle")
@@ -50,12 +66,12 @@ d3.json("channel_data.json", function(error, root) {
     .attr("class", "bubble")
     .style("fill", function(d) { return color(d.sentiment);});
 
-  // add name label to the node
-  node.append("text")
-    .attr("dy", ".3em")
-    .attr("class", "bubble-text")
-    .style("text-anchor", "middle")
-    .text(function(d) { return d.name; });
+  // // add name label to the node
+  // node.append("text")
+  //   .attr("dy", ".3em")
+  //   .attr("class", "bubble-text")
+  //   .style("text-anchor", "middle")
+  //   .text(function(d) { return d.name; });
 
   // // For each node, include an invisible rectangle for text-wrapping boundaries.
   // // rectangle appears but is in the wrong spot
@@ -76,7 +92,7 @@ d3.json("channel_data.json", function(error, root) {
   //   .text(function(d) {
   //        return d.name.substring(0, d.r / 3);
   //      });
-} );
+ });
 
 // ??
 // d3.select(self.frameElement).style("height", diameter + "px");
