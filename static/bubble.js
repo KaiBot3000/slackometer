@@ -46,8 +46,8 @@ d3.json("channel_data.json", function(error, root) {
     .on("mouseover", function(d) {    
       div.transition()    
           .duration(200)    
-          .style("opacity", .9);    
-      div .html(d.name + "<br/>"  + "Hello!")  
+          .style("opacity", .75);    
+      div .html(d.name)  
           .style("left", (d3.event.pageX) + "px")   
           .style("top", (d3.event.pageY - 28) + "px");  
     })          

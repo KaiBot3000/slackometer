@@ -60,12 +60,12 @@ body {
 
 div.tooltip { 
     position: absolute;     
-    text-align: center;     
-    width: 60px;          
-    height: 28px;         
-    padding: 2px;       
-    font: 12px sans-serif;    
-    background: lightsteelblue; 
+    text-align: center;             
+    padding: 5px;       
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;    
+    /*background: #B1FB17; */
+    background: #b3b3b3;
     border: 0px;    
     border-radius: 8px;     
     pointer-events: none;     
