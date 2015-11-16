@@ -19,12 +19,13 @@ channel_tuple_list = []
 
 @app.route("/")
 def index():
+    """Initial landing page"""
 
     return render_template("index.html")
 
 @app.route("/get_team")
 def get_team():
-    """Initial landing page"""
+    """OAuth route"""
 
     global state
     state = randomWord()
