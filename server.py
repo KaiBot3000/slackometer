@@ -17,9 +17,13 @@ MYEMAIL = os.environ["MYEMAIL"]
 state = None
 channel_tuple_list = []
 
-
 @app.route("/")
-def index_page():
+def index():
+
+    return render_template("index.html")
+
+@app.route("/get_team")
+def get_team():
     """Initial landing page"""
 
     global state
@@ -259,7 +263,7 @@ def get_sentiment(msg_dictionary):
     # convert to python dictionary
     # ignores character like emoticons which were throwinf unicode errors
     sentiment_response_dict = json.loads(sentiment_response.decode("utf-8","ignore"))
-     
+
     return sentiment_response_dict
 
 
