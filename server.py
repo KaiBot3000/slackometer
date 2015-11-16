@@ -17,6 +17,7 @@ MYEMAIL = os.environ["MYEMAIL"]
 state = None
 channel_tuple_list = []
 
+
 @app.route("/")
 def index():
     """Initial landing page"""
@@ -32,7 +33,7 @@ def get_team():
 
     params = {"client_id": CLIENT_ID,
                 "redirect_uri": "http://localhost:5000/slacked",
-                "scope": "channels:history channels:read",
+                "scope": "channels:history channels:read team:read",
                 "state": state}
     oauth_url = "https://slack.com/oauth/authorize?" + urlencode(params)
 
@@ -66,6 +67,7 @@ def slacked():
 
         # get list of channels for user
         channel_list = get_channel_list(user_token)
+        team_name = get_team_name(user_token)
 
         for channel in channel_list:
             channel_history = get_channel_history(user_token, channel)
@@ -75,7 +77,7 @@ def slacked():
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
             # I know this is terrible...
-            channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
+            channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1], team_name)
 
             channel_tuple_list.append(channel_tuple)
 
@@ -87,25 +89,9 @@ def slacked():
 
 @app.route("/bubble")
 def bubble():
-    """d3 test run"""
+    """Display d3"""
 
     return render_template("bubble.html")
-
-
-# @app.route("/bubblebuilder.json")
-# def build_bubbles():
-#     """Gets channel history and builds bubble json"""
-
-    # user_token = get the id from the post request
-
-    # get channel list, using user token
-
-    # for channel, 
-        # build objects?
-        # get channel history
-        # add to objects
-
-    # return json for d3 
 
 
 @app.route("/channel_data.json")
@@ -113,7 +99,7 @@ def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
     channel_data = {}
-    channel_data = {"name": "channels",
+    channel_data = {"name": channel_tuple_list[0][3],
                     "children": []
                     }
 
@@ -131,28 +117,12 @@ def make_channel_data():
     return jsonify(channel_data)
 
 
-# @app.route("/cats.json")
-# def send_cats():
-#     """Test route for building d3 bubble chart"""
-
-#     cats = {"name": "cats",
-#             "children": [
-#             {"name": "Guido", "value": 160, "color": "black", "sentiment": 1.25},
-#             {"name": "Darwin", "value": 110, "color": "chocolate", "sentiment": 2.4},
-#             {"name": "Mika", "value": 100, "color": "black", "sentiment": 4},
-#             {"name": "Kitin", "value": 150, "color": "orange", "sentiment": -1},
-#             {"name": "Pirate Jack", "value": 180, "color": "saddlebrown", "sentiment": 0.25}
-#             ]}
-
-#     return jsonify(cats)
-   
-
-
 ##################### Helper functions
 
 
 def randomWord():
     """Generates a random 10 character string, to use as an API verification"""
+
     return ''.join(random.choice(string.lowercase) for i in range(10))
 
 
@@ -166,6 +136,19 @@ def check_state(state_returned):
         return True
 
 
+def get_team_name(token):
+    """Given a user token, returns the name of the authorized team"""
+
+    team_params = {"token": token}
+    team_url = "https://slack.com/api/team.info?" + urlencode(team_params)
+    json_team = requests.get(team_url)
+    team_response = json_team.json()
+
+    team_name = team_response["team"]["name"]
+    
+    return team_name
+
+
 def get_channel_list(token):
     """Give a user token, returns a list of tuples with active channel names and ids"""
 
@@ -175,6 +158,8 @@ def get_channel_list(token):
     channel_response = json_channel.json()
 
     channel_list = []
+
+    print "\n", channel_response
     
     for channel in channel_response["channels"]:
         channel_tuple = (channel["name"], channel["id"])
@@ -193,7 +178,6 @@ def get_channel_history(token, channel_tuple):
         history_params = {"token": token, 
                             "channel": channel_tuple[1],
                             "inclusive": 1,
-                            # "count":100
                             "oldest": one_week_ago
                             }
         history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
@@ -241,12 +225,6 @@ def clean_msg(msg):
     # things to remove: <usernames> <links...> emoticons?!
 
     stripped_msg = re.sub("[<].*?[>]", "", msg)
-
-    # nope. decoding unicode not supported (it's already unicode)
-    # cleaned_msg = unicode(stripped_msg, errors='ignore')
-
-    # cleaned_msg = stripped_msg.encode("utf-8")
-
     cleaned_msg = stripped_msg
 
     return cleaned_msg
@@ -263,7 +241,7 @@ def get_sentiment(msg_dictionary):
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
     sentiment_response = sentiment_api_call.read()
     # convert to python dictionary
-    # ignores character like emoticons which were throwinf unicode errors
+    # ignores character like emoticons which were throwing unicode errors
     sentiment_response_dict = json.loads(sentiment_response.decode("utf-8","ignore"))
 
     return sentiment_response_dict
