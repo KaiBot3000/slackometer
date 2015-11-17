@@ -81,17 +81,16 @@ def bubble():
 def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
-    # blank out all lists, etc to clear graph if possible
+    # blank out all lists, etc to clear graph
     channel_data = {}
     channel_tuple_list = []
-    # channel_list = []
 
     # get list of channels and authorized team name for user
     channel_list = get_channel_list()
     team_name = get_team_name()
 
     # Now that this is all in the same route, can be refactored and vastly simplified! Yay!
-    # want to parse directly into dictionary for jsonifying
+    # want to parse directly into dictionary for jsonifying rather than looping twice
 
     for channel in channel_list:
         channel_history = get_channel_history(channel) #returns list of messages for a channel
@@ -145,12 +144,12 @@ def check_state(state_returned):
 
 def get_team_name():
     """Given a user token, returns the name of the authorized team"""
+    
     token = session["user_token"]
     team_params = {"token": token}
     team_url = "https://slack.com/api/team.info?" + urlencode(team_params)
     json_team = requests.get(team_url)
     team_response = json_team.json()
-    # print "\n\n\n\n\n", team_response
     team_name = team_response["team"]["name"]
     
     return team_name
@@ -239,12 +238,10 @@ def get_sentiment(msg_dictionary):
 
     # add my email to the call, as requested by Sentiment140
     msg_dictionary["appid"] = MYEMAIL
-    # convert to json
     sentiment_data = json.dumps(msg_dictionary)
 
     sentiment_api_call = urlopen('http://www.sentiment140.com/api/bulkClassifyJson', sentiment_data)
     sentiment_response = sentiment_api_call.read()
-    # convert to python dictionary
     # ignores character like emoticons which were throwing unicode errors
     sentiment_response_dict = json.loads(sentiment_response.decode("utf-8","ignore"))
 
