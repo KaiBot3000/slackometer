@@ -97,10 +97,9 @@ def make_channel_data():
         msg_dictionary = make_history_dictionary(channel_history) #Makes into s140 api dictionary
         sentiment_dict = get_sentiment(msg_dictionary) #gets sentiment back
         sentiment_list = make_sentiment_list(sentiment_dict) #parses sentiment into list of values
-        channel_tuple = process_sentiment_list(channel_name, sentiment_list) #returns (length, avg) tuple
 
-        # I know this is terrible... channel[0] is the name
-        # channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
+        # make this return a dictionary, then we don't need second loop
+        channel_tuple = process_sentiment_list(channel_name, sentiment_list) #returns (length, avg) tuple
 
         channel_tuple_list.append(channel_tuple)
 
@@ -109,18 +108,23 @@ def make_channel_data():
                     "children": []
                     }
 
-    for channel in channel_tuple_list:
-        channel_dict = {}
+    # for channel in channel_tuple_list:
+    #     channel_dict = {}
 
-        if channel[1] > 0:
+    #     if channel[1] > 0:
 
-            channel_dict["name"] = channel[0].replace("-", " ")
-            channel_dict["value"] = channel[1]
-            channel_dict["sentiment"] = channel[2]
+    #         channel_dict["name"] = channel[0].replace("-", " ")
+    #         channel_dict["value"] = channel[1]
+    #         channel_dict["sentiment"] = channel[2]
 
-            channel_data["children"].append(channel_dict)
+    #         channel_data["children"].append(channel_dict)
 
     return jsonify(channel_data)
+    # channel_data = { "name": team_name,
+    #                     "children": ["name":
+    #                                 "value":
+    #                                 "sentiment":
+    #                                 ]}
 
 
 ##################### Helper functions
@@ -260,14 +264,19 @@ def make_sentiment_list(sentiment_dict):
 
 
 def process_sentiment_list(channel_name, sentiment_list):
-    """Given a channel name and sentiment list, returns a tuple of length and avg value"""
+    """Given a channel name and sentiment list, returns a dict of name, length/value, avg sentiment"""
 
+    channel_dict = {}
     if sentiment_list:
-        sentiment_tuple = (channel_name,
-                            len(sentiment_list), 
-                            (float(sum(sentiment_list)) / len(sentiment_list)))
-    else:
-        sentiment_tuple = (0, 0.0)
+        # sentiment_tuple = (channel_name,
+        #                     len(sentiment_list), 
+        #                     (float(sum(sentiment_list)) / len(sentiment_list)))
+        channel_dict["name"] = channel_name
+        channel_dict["value"] = max(len(sentiment_list), 0)
+        channel_dict["sentiment"] = max((float(sum(sentiment_list)) / len(sentiment_list)), 0.0)
+
+    # else:
+        # sentiment_tuple = (0, 0.0)
 
     return sentiment_tuple
 
