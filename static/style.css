@@ -53,20 +53,19 @@ body {
   text-align: center;
 }
 
-/*.tooltip {
-  font-family: 'Roboto', sans-serif;
-  font-size: 35px;
-}*/
-
 div.tooltip { 
     position: absolute;     
     text-align: center;             
     padding: 5px;       
     font-family: 'Roboto', sans-serif;
     font-size: 20px;    
-    /*background: #B1FB17; */
     background: #b3b3b3;
     border: 0px;    
     border-radius: 8px;     
     pointer-events: none;     
+}
+
+#loading {
+  width: 15%;
+  padding: 10%;
 }

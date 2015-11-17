@@ -33,7 +33,11 @@ d3.json("channel_data.json", function(error, root) {
   if (error) throw error;
   console.log(root);
 
-  // every circle is a node
+  // Change title from "loading" to team name, remove loading gif
+  $(".title").html(root["name"]);
+  $("#load-div").html("");
+
+  // every bubble is a node
   var node = svg.selectAll(".node")
     .data(bubble.nodes(root)
     // this filters out any nodes with children (ie the giant circle)

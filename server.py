@@ -42,7 +42,7 @@ def get_team():
 
 @app.route("/slacked")
 def slacked():
-    """Landing page for authorized slack users"""
+    """Landing page for authorized slack users, completes OAuth danceand saves user token"""
 
     state_returned = request.args.get("state")
     client_code = request.args.get("code")
@@ -62,31 +62,11 @@ def slacked():
         response = json_response.json()
         
         # identify user
-        # print response
-        print "getting user token"
+        print response
         user_token = response["access_token"]
 
         session["user_token"] = user_token
-        print session
-        # get list of channels for user
-        channel_list = get_channel_list()
-        team_name = get_team_name()
 
-        for channel in channel_list:
-            channel_history = get_channel_history(channel)
-            msg_dictionary = make_history_dictionary(channel_history)
-            sentiment_dict = get_sentiment(msg_dictionary)
-            sentiment_list = make_sentiment_list(sentiment_dict)
-            sentiment_tuple = process_sentiment_list(sentiment_list)
-
-            # I know this is terrible...
-            channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
-
-            channel_tuple_list.append(channel_tuple)
-
-    # should probably redirect to route that builds channel objects, pass user token
-    # this way refreshing graph can be separated from login
-    # return redirect("/bubblebuilder.json", user_token=user_token)
     return redirect("/bubble")
 
 
@@ -101,8 +81,26 @@ def bubble():
 def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
+    # get list of channels and authorized team name for user
+    channel_list = get_channel_list()
+    team_name = get_team_name()
+
+    # Now that this is all in the same route, can be refactored and vastly simplified! Yay!
+
+    for channel in channel_list:
+        channel_history = get_channel_history(channel)
+        msg_dictionary = make_history_dictionary(channel_history)
+        sentiment_dict = get_sentiment(msg_dictionary)
+        sentiment_list = make_sentiment_list(sentiment_dict)
+        sentiment_tuple = process_sentiment_list(sentiment_list)
+
+        # I know this is terrible...
+        channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
+
+        channel_tuple_list.append(channel_tuple)
+
     channel_data = {}
-    channel_data = {"name": get_team_name(),
+    channel_data = {"name": team_name,
                     "children": []
                     }
 
@@ -146,7 +144,7 @@ def get_team_name():
     team_url = "https://slack.com/api/team.info?" + urlencode(team_params)
     json_team = requests.get(team_url)
     team_response = json_team.json()
-
+    # print "\n\n\n\n\n", team_response
     team_name = team_response["team"]["name"]
     
     return team_name
@@ -163,7 +161,7 @@ def get_channel_list():
 
     channel_list = []
 
-    print "\n", channel_response
+    # print "\n", channel_response
     
     for channel in channel_response["channels"]:
         channel_tuple = (channel["name"], channel["id"])
@@ -199,11 +197,6 @@ def get_channel_history(channel_tuple):
 
 def make_history_dictionary(msg_list):
     """Converts a message list into a dictionary for sentiment analysis"""
-
-    # dictionary = {"data":[
-    #                     {"text": "I love Titanic."}, 
-    #                     {"text": "I hate Titanic."}
-    #                     ]}
 
     msg_dictionary = {}
     msg_text_list = []
@@ -272,19 +265,6 @@ def process_sentiment_list(sentiment_list):
         sentiment_tuple = (0, 0.0)
 
     return sentiment_tuple
-
-
-# new_response = {"data":[
-#                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
-#                     {"text":"awww!","polarity":2,"meta":{"language":"en"}},
-#                     {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
-#                     {"text":"Awwwww","polarity":2,"meta":{"language":"en"}},
-#                     {"text":"is that a stencil ? awesome!","polarity":4,"meta":{"language":"en"}}
-#                     ],
-#                 "appid":"kai@kaidalgleish.io"}
-
-# new_list = make_sentiment_list(new_response)
-# print new_list
 
 
 if __name__ == '__main__':
