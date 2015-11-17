@@ -62,22 +62,25 @@ def slacked():
         response = json_response.json()
         
         # identify user
-        print response
+        # print response
+        print "getting user token"
         user_token = response["access_token"]
 
+        session["user_token"] = user_token
+        print session
         # get list of channels for user
-        channel_list = get_channel_list(user_token)
-        team_name = get_team_name(user_token)
+        channel_list = get_channel_list()
+        team_name = get_team_name()
 
         for channel in channel_list:
-            channel_history = get_channel_history(user_token, channel)
+            channel_history = get_channel_history(channel)
             msg_dictionary = make_history_dictionary(channel_history)
             sentiment_dict = get_sentiment(msg_dictionary)
             sentiment_list = make_sentiment_list(sentiment_dict)
             sentiment_tuple = process_sentiment_list(sentiment_list)
 
             # I know this is terrible...
-            channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1], team_name)
+            channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
 
             channel_tuple_list.append(channel_tuple)
 
@@ -99,7 +102,7 @@ def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
     channel_data = {}
-    channel_data = {"name": channel_tuple_list[0][3],
+    channel_data = {"name": get_team_name(),
                     "children": []
                     }
 
@@ -136,9 +139,9 @@ def check_state(state_returned):
         return True
 
 
-def get_team_name(token):
+def get_team_name():
     """Given a user token, returns the name of the authorized team"""
-
+    token = session["user_token"]
     team_params = {"token": token}
     team_url = "https://slack.com/api/team.info?" + urlencode(team_params)
     json_team = requests.get(team_url)
@@ -149,9 +152,10 @@ def get_team_name(token):
     return team_name
 
 
-def get_channel_list(token):
+def get_channel_list():
     """Give a user token, returns a list of tuples with active channel names and ids"""
 
+    token = session["user_token"]
     channel_params = {"token": token, "exclude_archived": 1}
     channel_url = "https://slack.com/api/channels.list?" + urlencode(channel_params)
     json_channel = requests.get(channel_url)
@@ -168,28 +172,29 @@ def get_channel_list(token):
     return channel_list
 
 
-def get_channel_history(token, channel_tuple):
-        """Returns history of the channel"""
+def get_channel_history(channel_tuple):
+    """Returns history of the channel"""
 
-        ONE_WEEK_SEC = 604800
-        epoch_time = time()
-        one_week_ago = epoch_time - ONE_WEEK_SEC
+    token = session["user_token"]
+    ONE_WEEK_SEC = 604800
+    epoch_time = time()
+    one_week_ago = epoch_time - ONE_WEEK_SEC
 
-        history_params = {"token": token, 
-                            "channel": channel_tuple[1],
-                            "inclusive": 1,
-                            "oldest": one_week_ago
-                            }
-        history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
-        json_history = requests.get(history_url)
-        history_response = json_history.json()
+    history_params = {"token": token, 
+                        "channel": channel_tuple[1],
+                        "inclusive": 1,
+                        "oldest": one_week_ago
+                        }
+    history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
+    json_history = requests.get(history_url)
+    history_response = json_history.json()
 
-        msg_list = []
+    msg_list = []
 
-        for msg in history_response["messages"]:
-            msg_list.append(msg["text"])
+    for msg in history_response["messages"]:
+        msg_list.append(msg["text"])
 
-        return msg_list
+    return msg_list
 
 
 def make_history_dictionary(msg_list):
