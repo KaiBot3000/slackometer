@@ -97,7 +97,7 @@ def make_channel_data():
         msg_dictionary = make_history_dictionary(channel_history) #Makes into s140 api dictionary
         sentiment_dict = get_sentiment(msg_dictionary) #gets sentiment back
         sentiment_list = make_sentiment_list(sentiment_dict) #parses sentiment into list of values
-        sentiment_tuple = process_sentiment_list(channel_name, sentiment_list) #returns (length, avg) tuple
+        channel_tuple = process_sentiment_list(channel_name, sentiment_list) #returns (length, avg) tuple
 
         # I know this is terrible... channel[0] is the name
         # channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
