@@ -52,7 +52,7 @@ def slacked():
     else:
         # OAuth parameters
         params = {"client_id": CLIENT_ID.strip(),
-                    "client_secret": CLIENT_SECRET.strip(), # was having issue with a \r, can't find it :(
+                    "client_secret": CLIENT_SECRET.strip(), # was having issue with a \r
                     "code": client_code}
 
         oauth_url = "https://slack.com/api/oauth.access?" + urlencode(params)       
@@ -88,8 +88,9 @@ def make_channel_data():
     channel_list = get_channel_list()
     team_name = get_team_name()
 
-    # Now that this is all in the same route, can be refactored and vastly simplified! Yay!
-    # want to parse directly into dictionary for jsonifying rather than looping twice
+    channel_data = {"name": team_name,
+                "children": []
+                }
 
     for channel in channel_list:
         channel_name = channel[0]
@@ -98,33 +99,11 @@ def make_channel_data():
         sentiment_dict = get_sentiment(msg_dictionary) #gets sentiment back
         sentiment_list = make_sentiment_list(sentiment_dict) #parses sentiment into list of values
 
-        # make this return a dictionary, then we don't need second loop
-        channel_tuple = process_sentiment_list(channel_name, sentiment_list) #returns (length, avg) tuple
+        channel_dict = process_sentiment_list(channel_name, sentiment_list)
 
-        channel_tuple_list.append(channel_tuple)
-
-    
-    channel_data = {"name": team_name,
-                    "children": []
-                    }
-
-    # for channel in channel_tuple_list:
-    #     channel_dict = {}
-
-    #     if channel[1] > 0:
-
-    #         channel_dict["name"] = channel[0].replace("-", " ")
-    #         channel_dict["value"] = channel[1]
-    #         channel_dict["sentiment"] = channel[2]
-
-    #         channel_data["children"].append(channel_dict)
+        channel_data["children"].append(channel_dict)
 
     return jsonify(channel_data)
-    # channel_data = { "name": team_name,
-    #                     "children": ["name":
-    #                                 "value":
-    #                                 "sentiment":
-    #                                 ]}
 
 
 ##################### Helper functions
@@ -268,17 +247,11 @@ def process_sentiment_list(channel_name, sentiment_list):
 
     channel_dict = {}
     if sentiment_list:
-        # sentiment_tuple = (channel_name,
-        #                     len(sentiment_list), 
-        #                     (float(sum(sentiment_list)) / len(sentiment_list)))
         channel_dict["name"] = channel_name
         channel_dict["value"] = max(len(sentiment_list), 0)
         channel_dict["sentiment"] = max((float(sum(sentiment_list)) / len(sentiment_list)), 0.0)
 
-    # else:
-        # sentiment_tuple = (0, 0.0)
-
-    return sentiment_tuple
+    return channel_dict
 
 
 if __name__ == '__main__':
