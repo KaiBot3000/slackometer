@@ -9,12 +9,13 @@ var color = d3.scale.linear()
     .domain([0, 2, 4])
     .range(["red", "yellow", "green"]);
 
+// add div for the tooltips
 var div = d3.select("body").append("div") 
     .attr("class", "tooltip")       
     .style("opacity", 0);
 
 // make a bubble, packed, with size and padding
-// If I use .force() instead of .pack(), I can make it wiggle
+// If I use .force() instead of .pack(), I can make it wiggle (later)
 var bubble = d3.layout.pack()
   .sort(null)
   .size([diameter, diameter])
@@ -26,6 +27,9 @@ var svg = d3.select(".bubble").append("svg")
   .attr("height", diameter)
   .attr("class", "bubble")
   .attr("class", "center");
+
+// try to clear cache of channel info :(
+root = {};
 
 // make a server call to get data
 d3.json("channel_data.json", function(error, root) {

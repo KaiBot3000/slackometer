@@ -15,7 +15,7 @@ CLIENT_ID = os.environ["CLIENT_ID"]
 CLIENT_SECRET = os.environ["CLIENT_SECRET"]
 MYEMAIL = os.environ["MYEMAIL"]
 state = None
-channel_tuple_list = []
+# channel_tuple_list = []
 
 
 @app.route("/")
@@ -81,25 +81,31 @@ def bubble():
 def make_channel_data():
     """Parses list of channel tups into json for d3 bubble chart"""
 
+    # blank out all lists, etc to clear graph if possible
+    channel_data = {}
+    channel_tuple_list = []
+    # channel_list = []
+
     # get list of channels and authorized team name for user
     channel_list = get_channel_list()
     team_name = get_team_name()
 
     # Now that this is all in the same route, can be refactored and vastly simplified! Yay!
+    # want to parse directly into dictionary for jsonifying
 
     for channel in channel_list:
-        channel_history = get_channel_history(channel)
-        msg_dictionary = make_history_dictionary(channel_history)
-        sentiment_dict = get_sentiment(msg_dictionary)
-        sentiment_list = make_sentiment_list(sentiment_dict)
-        sentiment_tuple = process_sentiment_list(sentiment_list)
+        channel_history = get_channel_history(channel) #returns list of messages for a channel
+        msg_dictionary = make_history_dictionary(channel_history) #Makes into s140 api dictionary
+        sentiment_dict = get_sentiment(msg_dictionary) #gets sentiment back
+        sentiment_list = make_sentiment_list(sentiment_dict) #parses sentiment into list of values
+        sentiment_tuple = process_sentiment_list(sentiment_list) #returns (length, avg) tuple
 
-        # I know this is terrible...
+        # I know this is terrible... channel[0] is the name
         channel_tuple = (channel[0], sentiment_tuple[0], sentiment_tuple[1])
 
         channel_tuple_list.append(channel_tuple)
 
-    channel_data = {}
+    
     channel_data = {"name": team_name,
                     "children": []
                     }
