@@ -10,15 +10,6 @@
 * [D3] - Library with a huge variety of graphs and charts. Slack-o-meter uses a pack layout, a series of bubbles with color corresponding to sentiment and size to traffic over the last week. Data from Slack is processed into a Python dictionary, then passed into D3 using JSON. D3 generates svg elements with unique attributes for each item in the JSON. 
 
 
-### The Stack
-
-* [Python] - Backend code that manipulates incoming data, controls access to the database, and serves data to the webpage through a framework.
-* [Flask] - Lightweight web framework which also provides support for jinja templating and unittests
-* [Javascript] - Frontend code which allows for dynamic webpages
-* [jQuery] - A Javascript library that simplifies DOM manipulation, including creating event handlers for user interaction
-* [HTML] - Displays information on the web
-* [CSS] - Styles webpages
-
 ### Installation
 
 Clone repo:
