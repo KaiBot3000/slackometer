@@ -1,4 +1,4 @@
-![image](/static/images/search_screenshot.png)
+![image](/static/welcome.png)
 # Slack-o-meter
 
 
@@ -34,3 +34,8 @@ Run Slackometer server:
 $ python server.py
 ```
 View in your browser, probably at http://127.0.0.1:5000/ 
+
+### Using Slack-o-meter
+
+-Sign in to Slack using OAuth by clicking "Get Team"
+![image](/static/welcome.png)
