@@ -11,6 +11,7 @@
 
 
 ### Installation
+In order to run Slack-o-meter on your computer, you'll need to make a Slack app which redirects to "/slacked", and generate a client key and secret. This can be done in a few minutes through [Slack's API portal](https://api.slack.com/)
 
 Clone repo:
 ```sh
@@ -21,6 +22,13 @@ $ cd slackometer
 Install dependencies:
 ```sh
 $ pip install -r requirements.txt
+```
+
+Source secrets to your environment:
+```sh
+$ export CLIENT_ID=[Your client id here, for Slack]
+$ export CLIENT_SECRET=[Your secret here, for Slack]
+$ export MYEMAIL=[Your email here, for Sentiment140]
 ```
 
 Run Slackometer server:
