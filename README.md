@@ -1,16 +1,15 @@
 ![image](/static/welcome.png)
-Slack-o-meter allows rapid visual analysis of traffic and mood across channels within a Slack team.
-
+#*Slack-o-meter allows rapid visual analysis of traffic and mood across channels within a Slack team.*
 
 
 
 ### The Tech
 
-Slack - A messaging app for teams. Using OAuth, users can allow Slack-o-meter to access their account. With a series of API calls, Slack-o-meter gets the name of the authorized team, a list of the channels, and the recent history of each channel.
+* [Slack] - A messaging app for teams. Using OAuth, users can allow Slack-o-meter to access their account. With a series of API calls, Slack-o-meter gets the name of the authorized team, a list of the channels, and the recent history of each channel.
 
-Sentiment140 - Public sentiment analysis optimized for Twitter, created by Stanford Graduate students. Given a series of comments via JSON, the Sentiment140 bulk classifier returns a sentiment rating from 0-4 for each, with 0 being very negative and 4 being very positive. 
+* [Sentiment140] - Public sentiment analysis optimized for Twitter, created by Stanford Graduate students. Given a series of comments via JSON, the Sentiment140 bulk classifier returns a sentiment rating from 0-4 for each, with 0 being very negative and 4 being very positive. 
 
-D3 - Library with a huge variety of graphs and charts. Slack-o-meter uses a pack layout, a series of bubbles with color corresponding to sentiment and size to traffic over the last week. Data from Slack is processed into a Python dictionary, then passed into D3 using JSON. D3 generates svg elements with unique attributes for each item in the JSON. 
+* [D3] - Library with a huge variety of graphs and charts. Slack-o-meter uses a pack layout, a series of bubbles with color corresponding to sentiment and size to traffic over the last week. Data from Slack is processed into a Python dictionary, then passed into D3 using JSON. D3 generates svg elements with unique attributes for each item in the JSON. 
 
 
 ### The Stack
