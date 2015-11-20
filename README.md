@@ -1,7 +1,5 @@
 ![image](/static/welcome.png)
-#*Slack-o-meter allows rapid visual analysis of traffic and mood across channels within a Slack team.*
-
-
+*Slack-o-meter allows rapid visual analysis of traffic and mood across channels within a Slack team.*
 
 ### The Tech
 
