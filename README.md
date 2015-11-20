@@ -31,7 +31,8 @@ View in your browser, probably at http://127.0.0.1:5000/
 
 ### Using Slack-o-meter
 
--Sign in to Slack using OAuth by clicking "Get Team"
+- Sign in to Slack using OAuth by clicking "Get Team"
+
 ![image](/static/allow_slack.png)
 
 - See a visual representation of your team! Color corresponds to average sentiment, while size corresponds to traffic. 
