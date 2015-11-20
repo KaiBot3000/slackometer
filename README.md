@@ -1,5 +1,9 @@
 ![image](/static/welcome.png)
+
 ####*Slack-o-meter allows rapid visual analysis of traffic and mood across channels within a Slack team.*
+
+
+
 
 ### The Tech
 
@@ -8,6 +12,8 @@
 * [Sentiment140] - Public sentiment analysis optimized for Twitter, created by Stanford Graduate students. Given a series of comments via JSON, the Sentiment140 bulk classifier returns a sentiment rating from 0-4 for each, with 0 being very negative and 4 being very positive. 
 
 * [D3] - Library with a huge variety of graphs and charts. Slack-o-meter uses a pack layout, a series of bubbles with color corresponding to sentiment and size to traffic over the last week. Data from Slack is processed into a Python dictionary, then passed into D3 using JSON. D3 generates svg elements with unique attributes for each item in the JSON. 
+
+
 
 
 ### Installation
@@ -37,13 +43,16 @@ $ python server.py
 ```
 View in your browser, probably at http://127.0.0.1:5000/ 
 
+
+
+
 ### Using Slack-o-meter
 
 - Sign in to Slack using OAuth by clicking "Get Team"
 
 ![image](/static/allow_slack.png)
 
-- See a visual representation of your team! Color corresponds to average sentiment, while size corresponds to traffic. 
+- Wait for the APIs to do their magic... then see a visual representation of your team! Color corresponds to average sentiment, while size corresponds to traffic. Hover to see the name of each channel.
 
 ![image](/static/bubbles.png)
 
