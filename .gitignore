@@ -3,3 +3,4 @@
 secrets.sh
 SentimentAnalysisDataset.csv
 *.pyc
+.DS_store
