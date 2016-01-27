@@ -36,7 +36,7 @@ class Channel(object):
     def make_history_dictionary(self):
         """Converts a message list into a dictionary for sentiment analysis"""
 
-        # dictionary = {"data":[
+        # dictionary_example = {"data":[
         #                     {"text": "I love Titanic."}, 
         #                     {"text": "I hate Titanic."}
         #                     ]}
@@ -59,7 +59,6 @@ class Channel(object):
         """Takes single message, removes user tags and links, returns stripped message"""
 
         # things to remove: <usernames> <links...>
-
         cleaned_msg = re.sub("[<].*?[>]", "", msg)
 
         return cleaned_msg
@@ -87,7 +86,7 @@ class Channel(object):
         return sentiment_list
 
 
-    # new_response = {"data":[
+    # new_response_example = {"data":[
     #                     {"text":" has joined the channel","polarity":2,"meta":{"language":"en"}},
     #                     {"text":"awww!","polarity":2,"meta":{"language":"en"}},
     #                     {"text":"Thank you!  I was pretty proud of myself.","polarity":2,"meta":{"language":"en"}},
