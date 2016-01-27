@@ -16,10 +16,13 @@ class Channel(object):
     def get_channel_history(self):
         """Returns history of the channel"""
 
+        ONE_WEEK_SEC = 604800
+        one_week_ago = time() - ONE_WEEK_SEC
+
         history_params = {"token": self.ownertoken, 
                             "channel": self.id,
                             "inclusive": 1,
-                            "count":30
+                            "oldest": one_week_ago
                             }
         history_url = "https://slack.com/api/channels.history?" + urlencode(history_params)
         json_history = requests.get(history_url)
