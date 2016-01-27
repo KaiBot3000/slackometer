@@ -10,7 +10,12 @@ class Channel(object):
 
         # these have been rewritten to be oo
         self.slack_history = get_channel_history()
-        self.history_dict = make_history_dictionary()
+        self.history_dict = make_clean_history_dictionary()
+        self.sentiment = make_sentiment_dict()
+
+    def make_sentiment_dict(self):
+        """ """
+        pass
 
 
     def get_channel_history(self):
@@ -36,7 +41,7 @@ class Channel(object):
         return msg_list
 
 
-    def make_history_dictionary(self):
+    def make_clean_history_dictionary(self):
         """Converts a message list into a dictionary for sentiment analysis"""
 
         # dictionary_example = {"data":[
@@ -50,7 +55,8 @@ class Channel(object):
 
         for msg in msg_list:
             msg_dict = {}
-            msg = clean_msg(msg)
+            # things to remove: <usernames> <links...>
+            msg = re.sub("[<].*?[>]", "", msg)
 
             if msg in skip_msg_list:
                 continue
@@ -63,13 +69,14 @@ class Channel(object):
         return msg_dictionary
 
 # TODO: this should probably take the whole object's messages, not a single message (to be a class method)
-    def clean_msg(self, msg):
-        """Takes single message, removes user tags and links, returns stripped message"""
+# Instead, I wrapped it into dictionary creation.
+    # def clean_msg(self, msg):
+    #     """Takes single message, removes user tags and links, returns stripped message"""
 
-        # things to remove: <usernames> <links...>
-        cleaned_msg = re.sub("[<].*?[>]", "", msg)
+    #     # things to remove: <usernames> <links...>
+    #     cleaned_msg = re.sub("[<].*?[>]", "", msg)
 
-        return cleaned_msg
+    #     return cleaned_msg
 
 
     def get_sentiment(self, msg_dictionary):
