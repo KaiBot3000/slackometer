@@ -56,3 +56,6 @@ View in your browser, probably at http://127.0.0.1:5000/
 
 ![image](/static/bubbles.png)
 
+### Issues?
+Slack-o-meter is a work in progress, and your input is welcome!!
+
