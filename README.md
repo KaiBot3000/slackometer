@@ -17,7 +17,7 @@
 
 
 ### Installation
-In order to run Slack-o-meter on your computer, you'll need to make a Slack app which redirects to "/slacked", and generate a client key and secret. This can be done in a few minutes through [Slack's API portal.](https://api.slack.com/)
+In order to run Slack-o-meter on your computer, you'll need to make a Slack app which redirects to "http://127.0.0.1:5000/slacked", and generate a client key and secret. This can be done in a few minutes through [Slack's API portal.](https://api.slack.com/)
 
 Clone repo:
 ```sh
